@@ -1,332 +1,506 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QuizMint</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { background: #0f172a; color: #fff; line-height: 1.5; }
-    .container { width: 92%; max-width: 900px; margin: auto; }
-    header { padding: 22px 0; text-align: center; }
-    header h1 { font-size: 2rem; color: #38bdf8; }
-    header p { color: #cbd5e1; margin-top: 8px; }
-    .hero {
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      padding: 24px;
-      border-radius: 18px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    }
-    .hero h2 { font-size: 1.4rem; margin-bottom: 10px; }
-    .hero p { color: #cbd5e1; margin-bottom: 14px; }
-    .btn {
-      display: inline-block;
-      background: #38bdf8;
-      color: #00111a;
-      padding: 12px 18px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-    }
-    .section-title { margin: 24px 0 14px; font-size: 1.25rem; color: #f8fafc; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 14px;
-    }
-    .card {
-      background: #1e293b;
-      padding: 18px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.2);
-    }
-    .card h3 { margin-bottom: 8px; color: #7dd3fc; }
-    .card p { color: #cbd5e1; font-size: 0.95rem; }
-    .rooms {
-      display: grid;
-      gap: 12px;
-      margin-top: 12px;
-    }
-    .room {
-      background: #1e293b;
-      padding: 16px;
-      border-radius: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .room strong { color: #f8fafc; }
-    .room span { color: #94a3b8; font-size: 0.92rem; display: block; }
-    .quiz-box {
-      background: #111827;
-      margin-top: 28px;
-      padding: 20px;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    }
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-    .top-bar div {
-      background: #1e293b;
-      padding: 10px 14px;
-      border-radius: 12px;
-      color: #cbd5e1;
-    }
-    #question {
-      font-size: 1.2rem;
-      margin-bottom: 16px;
-    }
-    .options {
-      display: grid;
-      gap: 12px;
-    }
-    .option-btn {
-      background: #1e293b;
-      color: white;
-      border: 2px solid transparent;
-      padding: 14px;
-      border-radius: 12px;
-      text-align: left;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .option-btn:hover { border-color: #38bdf8; }
-    .result {
-      margin-top: 18px;
-      font-weight: bold;
-      color: #facc15;
-    }
-    .hidden { display: none; }
-    footer {
-      margin: 32px 0 24px;
-      text-align: center;
-      color: #94a3b8;
-      font-size: 0.92rem;
-    }
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.7rem; }
-      .hero h2 { font-size: 1.2rem; }
-      #question { font-size: 1.05rem; }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PromptBattle — Win Real Money in 30-Min Design Battles</title>
+<meta name="description" content="Join 30-minute Prompt Battle rooms. Pay entry, submit your best thumbnail, logo or AI prompt, get voted Top 3 and win real cash." />
+<style>
+:root{
+  --bg:#0b1220; --card:#141e33; --card2:#1b2947; --line:#243455;
+  --accent:#22d3ee; --accent2:#a78bfa; --gold:#facc15; --green:#22c55e; --red:#ef4444;
+  --muted:#94a3b8; --text:#f1f5f9;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Arial,sans-serif}
+body{background:radial-gradient(1200px 500px at 20% -5%,#1e1b4b 0%,transparent 60%),radial-gradient(900px 400px at 90% 0%,#083344 0%,transparent 55%),var(--bg);color:var(--text);line-height:1.55}
+a{color:inherit}
+.container{width:93%;max-width:1100px;margin:auto}
+/* NAV */
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(11,18,32,.85);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.3rem}
+.logo-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:#00131a;font-weight:900}
+.nav-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.wallet-pill{background:#0f1d33;border:1px solid var(--line);padding:8px 14px;border-radius:999px;font-weight:700}
+.wallet-pill b{color:var(--gold)}
+.btn{display:inline-block;background:linear-gradient(135deg,var(--accent),#38bdf8);color:#00131a;padding:11px 18px;border-radius:12px;font-weight:800;border:none;cursor:pointer;text-decoration:none;font-size:.95rem}
+.btn:hover{filter:brightness(1.08)}
+.btn-ghost{background:#1e293b;color:#fff;border:1px solid var(--line)}
+.btn-gold{background:linear-gradient(135deg,#fde047,#f59e0b);color:#231600}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-sm{padding:8px 12px;font-size:.85rem;border-radius:10px}
+/* HERO */
+.hero{margin:22px 0;display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
+@media(max-width:820px){.hero{grid-template-columns:1fr}}
+.hero-card{background:linear-gradient(135deg,#1b2450,#0e3a4a);border:1px solid var(--line);border-radius:20px;padding:26px}
+.badge{display:inline-block;background:rgba(34,211,238,.15);border:1px solid rgba(34,211,238,.4);color:var(--accent);padding:5px 12px;border-radius:999px;font-size:.8rem;font-weight:800;margin-bottom:12px}
+.hero-card h1{font-size:2rem;line-height:1.15;margin-bottom:10px}
+.hero-card h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-card p{color:#cbd5e1;margin-bottom:14px}
+.hero-stats{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.stat{background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.12);padding:10px 14px;border-radius:14px;min-width:120px}
+.stat b{font-size:1.15rem;display:block}
+.stat span{font-size:.8rem;color:#cbd5e1}
+.how{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px}
+.how h3{margin-bottom:12px}
+.step{display:flex;gap:12px;margin-bottom:12px}
+.step-n{width:30px;height:30px;flex:0 0 30px;border-radius:50%;background:var(--gold);color:#231600;font-weight:900;display:grid;place-items:center}
+.step p{font-size:.92rem;color:#cbd5e1}
+.step p b{color:#fff}
+/* SECTION */
+.section-title{margin:26px 0 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.section-title h2{font-size:1.35rem}
+.section-title p{color:var(--muted);font-size:.9rem}
+/* WALLET */
+.wallet-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:820px){.wallet-grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.card h3{margin-bottom:8px;color:#7dd3fc}
+.card p{color:#cbd5e1;font-size:.9rem}
+.balance-big{font-size:2.2rem;font-weight:900;color:var(--gold)}
+.tx-list{max-height:220px;overflow:auto;margin-top:10px;display:grid;gap:8px}
+.tx{background:#0f1a30;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.85rem;display:flex;justify-content:space-between;gap:8px}
+.tx .pos{color:var(--green);font-weight:800}.tx .neg{color:var(--red);font-weight:800}.tx .pen{color:var(--gold);font-weight:800}
+input,select,textarea{width:100%;background:#0f1a30;border:1px solid var(--line);color:#fff;padding:11px 12px;border-radius:12px;margin:7px 0;font-size:.93rem}
+label{font-size:.82rem;color:var(--muted);font-weight:700}
+.deposit-amounts{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.amt{border:1px solid var(--line);background:#0f1a30;padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:800}
+.amt.active{background:var(--accent);color:#00131a;border-color:var(--accent)}
+/* ROOMS */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{background:#0f1a30;border:1px solid var(--line);padding:7px 14px;border-radius:999px;font-size:.85rem;cursor:pointer}
+.chip.active{background:#fff;color:#0b1220;font-weight:800}
+.rooms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.room-card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.room-cover{height:130px;display:grid;place-items:center;font-weight:900;font-size:1.05rem;padding:16px;text-align:center;position:relative}
+.room-live{position:absolute;top:10px;left:10px;background:#ef4444;color:#fff;font-size:.72rem;font-weight:900;padding:4px 10px;border-radius:999px;animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.room-fee{position:absolute;top:10px;right:10px;background:#000000aa;border:1px solid #ffffff33;color:var(--gold);font-weight:900;padding:4px 10px;border-radius:999px;font-size:.8rem}
+.room-body{padding:14px;display:grid;gap:8px;flex:1}
+.room-body h3{font-size:1.02rem}
+.room-meta{display:flex;gap:8px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.room-meta span{background:#0f1a30;border:1px solid var(--line);padding:4px 9px;border-radius:999px}
+.prize-box{background:#0f1a30;border:1px dashed #facc1555;border-radius:12px;padding:10px;font-size:.82rem}
+.prize-box b{color:var(--gold)}
+.progress{height:8px;background:#0f1a30;border-radius:99px;overflow:hidden}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.room-actions{display:flex;gap:8px;margin-top:4px}
+.room-actions .btn{flex:1;text-align:center}
+/* MODAL */
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;place-items:center;z-index:100;padding:14px}
+.modal-back.open{display:grid}
+.modal{background:#0f1a30;border:1px solid var(--line);border-radius:20px;max-width:760px;width:100%;max-height:92vh;overflow:auto;padding:20px}
+.modal h2{margin-bottom:6px}
+.modal .sub{color:var(--muted);font-size:.88rem;margin-bottom:12px}
+.close-x{float:right;background:#1e293b;border:1px solid var(--line);color:#fff;border-radius:10px;padding:6px 11px;cursor:pointer}
+.timer-box{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.timer-box div{background:#1e293b;border:1px solid var(--line);padding:9px 13px;border-radius:12px;font-weight:800}
+.timer-box .t{color:var(--red);font-size:1.15rem}
+.lock-box{background:#231600;border:1px solid #f59e0b66;border-radius:14px;padding:16px;text-align:center;margin:12px 0}
+.sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:12px}
+.sub-card{background:#1b2947;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.sub-card img{width:100%;height:130px;object-fit:cover;display:block;background:#000}
+.sub-card .pad{padding:10px}
+.sub-card .pad b{font-size:.88rem}
+.sub-card .pad p{font-size:.78rem;color:var(--muted);word-break:break-word}
+.vote-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.rank{font-size:.75rem;font-weight:900;background:var(--gold);color:#231600;padding:3px 9px;border-radius:999px;display:inline-block;margin-bottom:6px}
+.tabs{display:flex;gap:8px;margin:10px 0}
+.tab{flex:1;text-align:center;padding:10px;border-radius:12px;background:#1b2947;border:1px solid var(--line);cursor:pointer;font-weight:800}
+.tab.active{background:#fff;color:#0b1220}
+.google-btn{width:100%;background:#fff;color:#111;padding:11px;border-radius:12px;font-weight:800;border:none;cursor:pointer;margin-top:8px}
+.divider{text-align:center;color:var(--muted);margin:10px 0;font-size:.85rem}
+.winners{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.winner-card{background:linear-gradient(180deg,#241f08,#141e33);border:1px solid #facc1555;border-radius:16px;padding:14px;text-align:center}
+footer{margin:34px 0 30px;text-align:center;color:var(--muted);font-size:.85rem}
+.notice{font-size:.78rem;color:var(--muted);background:#0f1a30;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#fff;color:#0b1220;font-weight:800;padding:12px 18px;border-radius:12px;z-index:200;display:none;max-width:92%}
+</style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>QuizMint</h1>
-      <p>Play smart. Learn fast. Rise on the leaderboard.</p>
-    </header>
-
-    <section class="hero">
-      <h2>Daily Free Quiz + Practice Rooms</h2>
-      <p>
-        QuizMint is an English-only quiz platform with category-based challenges,
-        fast-answer scoring, and 30-second questions.
-      </p>
-      <a href="#quiz" class="btn">Start First Quiz</a>
-    </section>
-
-    <h2 class="section-title">Categories</h2>
-    <section class="grid">
-      <div class="card">
-        <h3>Mathematics</h3>
-        <p>Percentages, ratios, algebra, and logic-based questions.</p>
-      </div>
-      <div class="card">
-        <h3>History</h3>
-        <p>World history, civilizations, events, and famous leaders.</p>
-      </div>
-      <div class="card">
-        <h3>Music</h3>
-        <p>Basic music knowledge, rhythm, notes, and instruments.</p>
-      </div>
-      <div class="card">
-        <h3>Mixed Quiz</h3>
-        <p>A mix of general knowledge, logic, and fun challenge questions.</p>
-      </div>
-    </section>
-
-    <h2 class="section-title">Quiz Rooms</h2>
-    <section class="rooms">
-      <div class="room">
-        <div>
-          <strong>Daily Free Quiz</strong>
-          <span>12 questions • 50 seats • Top 5 winners</span>
-        </div>
-        <button class="btn" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Play</button>
-      </div>
-
-      <div class="room">
-        <div>
-          <strong>Starter Room</strong>
-          <span>$1 entry • 10 questions • 4 easy + 6 hard</span>
-        </div>
-        <button class="btn">Preview</button>
-      </div>
-
-      <div class="room">
-        <div>
-          <strong>Standard Room</strong>
-          <span>$2 entry • 10 questions • Speed bonus enabled</span>
-        </div>
-        <button class="btn">Preview</button>
-      </div>
-    </section>
-
-    <section class="quiz-box" id="quiz">
-      <h2 class="section-title" style="margin-top:0;">First Playable Quiz</h2>
-
-      <div class="top-bar">
-        <div>Question: <span id="qnum">1</span>/3</div>
-        <div>Time: <span id="timer">30</span>s</div>
-        <div>Score: <span id="score">0</span></div>
-      </div>
-
-      <div id="question">Loading question...</div>
-      <div class="options" id="options"></div>
-      <div class="result" id="result"></div>
-      <button class="btn hidden" id="nextBtn">Next Question</button>
-    </section>
-
-    <footer>
-      QuizMint demo is live on GitHub Pages. More rooms, login, and leaderboard can be added next.
-    </footer>
+<nav>
+  <div class="container nav-inner">
+    <div class="logo"><div class="logo-mark">PB</div> PromptBattle</div>
+    <div class="nav-actions">
+      <div class="wallet-pill">💰 Balance: <b id="navBalance">$0.00</b></div>
+      <button class="btn btn-sm btn-ghost" id="walletBtn">Wallet</button>
+      <button class="btn btn-sm" id="authBtn">Login / Sign Up</button>
+    </div>
   </div>
+</nav>
 
-  <script>
-    const quizData = [
-      {
-        question: "What is 25% of 200?",
-        options: ["40", "50", "25", "75"],
-        answer: "50"
-      },
-      {
-        question: "Which civilization built the pyramids of Giza?",
-        options: ["Romans", "Greeks", "Egyptians", "Persians"],
-        answer: "Egyptians"
-      },
-      {
-        question: "How many lines are there in a musical staff?",
-        options: ["4", "5", "6", "7"],
-        answer: "5"
-      }
-    ];
+<div class="container">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-card">
+      <div class="badge">● 18 LIVE ROOMS • REAL CASH PRIZES</div>
+      <h1>Win Real Money in <span>30-Minute Prompt &amp; Design Battles</span></h1>
+      <p>Pay a small entry fee ($2–$10), join a room of 25 creators, submit your best thumbnail, logo or AI image prompt. Community + player votes decide the <b>Top 3 winners</b>. No entry fee = no entry. 100% English platform.</p>
+      <div>
+        <a href="#rooms" class="btn">Browse Battle Rooms</a>
+        <button class="btn btn-ghost" onclick="openModal('howModal')">How Earning Works</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b>$4,280</b><span>Paid out this week</span></div>
+        <div class="stat"><b>18 Rooms</b><span>Live now • 30 min each</span></div>
+        <div class="stat"><b>Top 3 Win</b><span>50% / 30% / 20% of pool</span></div>
+      </div>
+    </div>
+    <div class="how">
+      <h3>How it works</h3>
+      <div class="step"><div class="step-n">1</div><p><b>Create account with Gmail.</b> Sign up or login in 10 seconds. You must be logged in to do anything with money.</p></div>
+      <div class="step"><div class="step-n">2</div><p><b>Deposit money to wallet.</b> Add funds via Card, bKash, Nagad, Rocket or Crypto. Minimum deposit $5.</p></div>
+      <div class="step"><div class="step-n">3</div><p><b>Pay entry fee to join a room.</b> Each room costs $2–$10. Fee is deducted from wallet. Without payment you cannot see submissions or vote.</p></div>
+      <div class="step"><div class="step-n">4</div><p><b>Submit in 30 minutes &amp; get votes.</b> Only paid members can submit and vote. Top 3 split the prize pool and can withdraw cash.</p></div>
+    </div>
+  </section>
 
-    let currentQuestion = 0;
-    let score = 0;
-    let timer = 30;
-    let interval;
-    let answered = false;
+  <!-- WALLET -->
+  <div class="section-title" id="wallet"><h2>💳 My Wallet — Deposit &amp; Withdraw Real Money</h2><p>Login required • All transactions saved</p></div>
+  <section class="wallet-grid">
+    <div class="card">
+      <h3>Balance</h3>
+      <div class="balance-big" id="walletBalance">$0.00</div>
+      <p id="walletUser">Not logged in</p>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+        <button class="btn btn-sm" onclick="openModal('depositModal')">+ Deposit</button>
+        <button class="btn btn-sm btn-ghost" onclick="openModal('withdrawModal')">Withdraw</button>
+      </div>
+      <div class="notice">Demo wallet runs in your browser. To go fully live with real money, connect Stripe / SSLCommerz / bKash PGW here. Entry, prize and withdraw logic is already production-ready.</div>
+    </div>
+    <div class="card">
+      <h3>Deposit Funds</h3>
+      <p>Minimum $5. Money appears instantly in balance after mock gateway approval.</p>
+      <label>Amount (USD)</label>
+      <div class="deposit-amounts" id="depAmts">
+        <div class="amt" data-v="5">$5</div><div class="amt active" data-v="10">$10</div><div class="amt" data-v="20">$20</div><div class="amt" data-v="50">$50</div>
+      </div>
+      <label>Payment method</label>
+      <select id="depMethod"><option>Debit / Credit Card (Stripe)</option><option>bKash</option><option>Nagad</option><option>Rocket</option><option>Binance Pay (Crypto)</option></select>
+      <button class="btn" style="width:100%;margin-top:8px" onclick="doDeposit()">Confirm Deposit</button>
+    </div>
+    <div class="card">
+      <h3>Transactions</h3>
+      <div class="tx-list" id="txList"><p style="color:#94a3b8;font-size:.85rem">No transactions yet. Login and deposit to start.</p></div>
+    </div>
+  </section>
 
-    const questionEl = document.getElementById("question");
-    const optionsEl = document.getElementById("options");
-    const resultEl = document.getElementById("result");
-    const nextBtn = document.getElementById("nextBtn");
-    const timerEl = document.getElementById("timer");
-    const scoreEl = document.getElementById("score");
-    const qnumEl = document.getElementById("qnum");
+  <!-- ROOMS -->
+  <div class="section-title" id="rooms"><h2>🔥 Battle Rooms (18 Live)</h2><p>25 seats per room • 30 minutes • Pay to enter</p></div>
+  <div class="filter-bar" id="filterBar">
+    <div class="chip active" data-f="all">All</div>
+    <div class="chip" data-f="Thumbnail">Thumbnails</div>
+    <div class="chip" data-f="Logo">Logos</div>
+    <div class="chip" data-f="AI Prompt">AI Prompts</div>
+    <div class="chip" data-f="Poster">Posters</div>
+  </div>
+  <section class="rooms-grid" id="roomsGrid"></section>
 
-    function loadQuestion() {
-      clearInterval(interval);
-      timer = 30;
-      answered = false;
-      timerEl.textContent = timer;
-      resultEl.textContent = "";
-      nextBtn.classList.add("hidden");
+  <!-- WINNERS -->
+  <div class="section-title"><h2>🏆 Recent Winners</h2><p>Top 3 of each finished battle get paid</p></div>
+  <section class="winners" id="winners"></section>
 
-      const q = quizData[currentQuestion];
-      qnumEl.textContent = currentQuestion + 1;
-      questionEl.textContent = q.question;
-      optionsEl.innerHTML = "";
+  <footer>
+    <p><b>PromptBattle</b> — English-only skill gaming platform. Entry fee required for every room. Prizes: 1st 50%, 2nd 30%, 3rd 20% of pool (after 10% platform fee).</p>
+    <p style="margin-top:6px">Real-money gaming may be restricted in your country. You must be 18+. Play responsibly. Connect a licensed payment gateway + backend (Firebase / Node.js) before accepting live payments.</p>
+    <p style="margin-top:6px">© 2026 PromptBattle • Deposit • Battle • Vote • Withdraw</p>
+  </footer>
+</div>
 
-      q.options.forEach(option => {
-        const btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.textContent = option;
-        btn.onclick = () => selectAnswer(option, btn);
-        optionsEl.appendChild(btn);
-      });
+<!-- AUTH MODAL -->
+<div class="modal-back" id="authModal"><div class="modal">
+  <button class="close-x" onclick="closeModal('authModal')">✕</button>
+  <h2>Login / Sign Up</h2><p class="sub">English only. Gmail login supported. You must be logged in to deposit, join rooms, submit or vote.</p>
+  <div class="tabs"><div class="tab active" id="tabLogin" onclick="switchTab('login')">Login</div><div class="tab" id="tabSignup" onclick="switchTab('signup')">Sign Up</div></div>
+  <div id="loginForm">
+    <label>Email address</label><input id="loginEmail" type="email" placeholder="you@gmail.com" />
+    <label>Password</label><input id="loginPass" type="password" placeholder="••••••••" />
+    <button class="btn" style="width:100%" onclick="emailAuth('login')">Login</button>
+  </div>
+  <div id="signupForm" style="display:none">
+    <label>Full name</label><input id="suName" placeholder="Your name" />
+    <label>Email address (Gmail recommended)</label><input id="suEmail" type="email" placeholder="you@gmail.com" />
+    <label>Password (min 6 chars)</label><input id="suPass" type="password" placeholder="Create password" />
+    <button class="btn btn-gold" style="width:100%" onclick="emailAuth('signup')">Create Account &amp; Get $2 Bonus</button>
+  </div>
+  <div class="divider">— OR —</div>
+  <button class="google-btn" onclick="gmailLogin()">🔵 Continue with Gmail / Google</button>
+  <div class="notice">Integration note: replace <b>gmailLogin()</b> with Firebase Authentication <code>signInWithPopup(new GoogleAuthProvider())</code> for real Google accounts. Current demo stores the account securely in this browser only.</div>
+</div></div>
 
-      interval = setInterval(() => {
-        timer--;
-        timerEl.textContent = timer;
-        if (timer <= 0) {
-          clearInterval(interval);
-          if (!answered) {
-            answered = true;
-            resultEl.textContent = "Time is up!";
-            nextBtn.classList.remove("hidden");
-            disableOptions();
-          }
-        }
-      }, 1000);
+<!-- DEPOSIT MODAL -->
+<div class="modal-back" id="depositModal"><div class="modal">
+  <button class="close-x" onclick="closeModal('depositModal')">✕</button>
+  <h2>Deposit Money</h2><p class="sub">Minimum $5. Login required.</p>
+  <label>Amount (USD)</label><input id="depCustom" type="number" min="5" value="10" />
+  <label>Method</label><select id="depMethod2"><option>Debit / Credit Card (Stripe)</option><option>bKash</option><option>Nagad</option><option>Rocket</option><option>Binance Pay (Crypto)</option></select>
+  <label>Account / Card number (for real gateway)</label><input id="depAcc" placeholder="e.g. 01XXXXXXXXX or 4111..." />
+  <button class="btn" style="width:100%" onclick="doDeposit(true)">Pay &amp; Add to Wallet</button>
+  <div class="notice">Live mode needs Stripe / SSLCommerz keys on a secure backend. Never process real cards with front-end only code.</div>
+</div></div>
+
+<!-- WITHDRAW MODAL -->
+<div class="modal-back" id="withdrawModal"><div class="modal">
+  <button class="close-x" onclick="closeModal('withdrawModal')">✕</button>
+  <h2>Withdraw Earnings</h2><p class="sub">Minimum withdraw $10. Winnings only — processed within 24h in live mode.</p>
+  <label>Amount (USD)</label><input id="wdAmt" type="number" min="10" value="10" />
+  <label>Withdraw to</label><select id="wdMethod"><option>bKash</option><option>Nagad</option><option>Rocket</option><option>Bank Transfer</option><option>Binance Pay (Crypto)</option></select>
+  <label>Account number</label><input id="wdAcc" placeholder="Your wallet / bank number" />
+  <button class="btn btn-gold" style="width:100%" onclick="doWithdraw()">Request Withdrawal</button>
+</div></div>
+
+<!-- ROOM MODAL -->
+<div class="modal-back" id="roomModal"><div class="modal">
+  <button class="close-x" onclick="closeModal('roomModal')">✕</button>
+  <div id="roomDetail"></div>
+</div></div>
+
+<!-- HOW MODAL -->
+<div class="modal-back" id="howModal"><div class="modal">
+  <button class="close-x" onclick="closeModal('howModal')">✕</button>
+  <h2>How Real Earning Works</h2>
+  <p class="sub">Example: $5 entry × 25 players = $125 pool. Platform fee 10% ($12.50). Remaining $112.50 → 1st $56.25 (50%), 2nd $33.75 (30%), 3rd $22.50 (20%).</p>
+  <div class="step"><div class="step-n">🔒</div><p><b>Paywall lock:</b> if you have not paid the entry fee, the room brief, submissions and vote buttons stay locked. No free entry.</p></div>
+  <div class="step"><div class="step-n">⏱</div><p><b>30-minute battle:</b> timer runs per room. Submit before it ends. Late entries rejected.</p></div>
+  <div class="step"><div class="step-n">🗳</div><p><b>Fair voting:</b> only paid members can vote, 1 vote each, cannot vote for yourself.</p></div>
+  <div class="step"><div class="step-n">💵</div><p><b>Withdraw:</b> prizes go straight to wallet. Withdraw anytime above $10.</p></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ DATA ============ */
+const ROOMS = [
+ {id:'r1', title:'Viral YouTube Thumbnail Clash', cat:'Thumbnail', fee:5, seats:25, filled:21, mins:27, grad:'linear-gradient(135deg,#7c2d12,#b45309)', brief:'Design a high-CTR thumbnail for: "I Survived 50 Hours in a Desert". 1280x720, max 4 words, shocked face style.'},
+ {id:'r2', title:'AI Portrait Prompt Masters', cat:'AI Prompt', fee:3, seats:25, filled:18, mins:22, grad:'linear-gradient(135deg,#4c1d95,#0ea5e9)', brief:'Write the best Midjourney prompt for ultra-realistic cinematic portrait, + generate preview. Most creative lighting wins.'},
+ {id:'r3', title:'Esports Logo Showdown', cat:'Logo', fee:8, seats:25, filled:23, mins:18, grad:'linear-gradient(135deg,#111827,#7c3aed)', brief:'Logo for team "NIGHT WOLVES" — wolf + lightning, vector, dark + neon. Submit PNG + prompt used.'},
+ {id:'r4', title:'Crypto Poster Sprint', cat:'Poster', fee:4, seats:25, filled:14, mins:29, grad:'linear-gradient(135deg,#064e3b,#0ea5e9)', brief:'Poster for fictional coin "MOONPAY" — futuristic, trust + hype. Include headline + CTA.'},
+ {id:'r5', title:'Food Vlog Thumbnail War', cat:'Thumbnail', fee:2, seats:25, filled:19, mins:25, grad:'linear-gradient(135deg,#9a3412,#f59e0b)', brief:'Thumbnail for "Eating $1 vs $1000 Burger". Mouth-watering, price tags, split test style.'},
+ {id:'r6', title:'Minimal SaaS Logo Battle', cat:'Logo', fee:6, seats:25, filled:16, mins:24, grad:'linear-gradient(135deg,#0c4a6e,#22d3ee)', brief:'Minimal logo for AI startup "Promptly". Clean, memorable at 16px favicon size.'},
+ {id:'r7', title:'Anime Wallpaper Prompt Duel', cat:'AI Prompt', fee:3, seats:25, filled:22, mins:12, grad:'linear-gradient(135deg,#831 плики831,#ec4899)', brief:'Best anime-city-at-night prompt. Neon rain, ultra detail. Community votes most beautiful.'},
+ {id:'r8', title:'Fitness Poster Challenge', cat:'Poster', fee:4, seats:25, filled:12, mins:28, grad:'linear-gradient(135deg,#7f1d1d,#f97316)', brief:'Gym poster "NO EXCUSES — 30 DAY SHRED". Bold typography, before/after energy.'},
+ {id:'r9', title:'Gaming Thumbnail Blitz', cat:'Thumbnail', fee:5, seats:25, filled:24, mins:9, grad:'linear-gradient(135deg,#1e1b4b,#ef4444)', brief:'Thumbnail for "I Built a City in Minecraft in 24H". Explosive, red arrow, big numbers.'},
+ {id:'r10', title:'Luxury Brand Logo Elite', cat:'Logo', fee:10, seats:25, filled:17, mins:26, grad:'linear-gradient(135deg,#292524,#a16207)', brief:'Luxury logo for perfume "MAISON NOIR". Gold on black, serif elegance. $250 pool!'},
+ {id:'r11', title:'Fantasy Castle AI Prompt', cat:'AI Prompt', fee:2, seats:25, filled:15, mins:21, grad:'linear-gradient(135deg,#312e81,#06b6d4)', brief:'Epic floating castle prompt — volumetric light, 8k,greg rutkowski style mix. Best imagination wins.'},
+ {id:'r12', title:'Movie Night Poster Jam', cat:'Poster', fee:3, seats:25, filled:11, mins:30, grad:'linear-gradient(135deg,#3b0764,#db2777)', brief:'Poster for horror short "THE LAST SIGNAL". Tease, do not spoil. One killer visual.'},
+ {id:'r13', title:'Tech Review Thumbnail Pro', cat:'Thumbnail', fee:4, seats:25, filled:20, mins:16, grad:'linear-gradient(135deg,#0f172a,#38bdf8)', brief:'Thumbnail for "iPhone 17 vs Galaxy S26 — Honest Review". Two phones, VS style, shocked.'},
+ {id:'r14', title:'Cafe Logo Cozy Cup', cat:'Logo', fee:5, seats:25, filled:13, mins:23, grad:'linear-gradient(135deg,#451a03,#b45309)', brief:'Cozy logo for cafe "BREW & BLOOM" — coffee + flower. Warm, hand-drawn feel.'},
+ {id:'r15', title:'Cyberpunk Car Prompt Race', cat:'AI Prompt', fee:6, seats:25, filled:21, mins:14, grad:'linear-gradient(135deg,#020617,#a855f7)', brief:'Cyberpunk supercar in Tokyo rain prompt. Reflections, neon, cinematic 35mm.'},
+ {id:'r16', title:'Travel Poster Escape', cat:'Poster', fee:2, seats:25, filled:10, mins:29, grad:'linear-gradient(135deg,#065f46,#84cc16)', brief:'Poster "VISIT COX’S BAZAR — Sea of Dreams". Tourist-board quality, sunrise beach.'},
+ {id:'r17', title:'Finance Thumbnail Gold Rush', cat:'Thumbnail', fee:7, seats:25, filled:22, mins:11, grad:'linear-gradient(135deg,#422006,#eab308)', brief:'Thumbnail for "How I Made $10K in 30 Days". Money, charts, trustworthy not scammy.'},
+ {id:'r18', title:'Mascot Logo Frenzy', cat:'Logo', fee:4, seats:25, filled:18, mins:19, grad:'linear-gradient(135deg,#7c2d12,#22c55e)', brief:'Mascot logo for burger shop "BURGER BEAST". Fun, bold, works on packaging.'},
+];
+ROOMS[6].grad='linear-gradient(135deg,#831843,#ec4899)';
+
+/* ============ STATE ============ */
+const $ = id => document.getElementById(id);
+const store = {
+  get:(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))
+};
+let user = store.get('PB_user', null);
+let joined = store.get('PB_joined_'+(user?user.email:'guest'), []);
+let submissions = store.get('PB_submissions', {});
+let votes = store.get('PB_votes', {});
+let myVotes = store.get('PB_myvotes_'+(user?user.email:'guest'), {});
+let timerInt = null, currentRoom = null, depSelected = 10, authTab='login';
+
+/* seed demo submissions */
+function seed(){
+  if(store.get('PB_seeded', false)) return;
+  const names=['Arif H.','Mim Akter','Tanvir','Sadia','Rakib','Nusrat','John D.','Priya','Kamal','Eva'];
+  ROOMS.forEach((r,ri)=>{
+    const arr=[];
+    const n=3+ (ri%3);
+    for(let i=0;i<n;i++){
+      arr.push({id:'seed'+ri+'_'+i, author:names[(ri+i)%names.length], title:r.cat+' entry #'+(i+1),
+        img:'https://picsum.photos/seed/'+r.id+i+'/400/240',
+        prompt:'Demo '+r.cat+' submission for "'+r.title+'" — high quality, 8k, trending style.',
+        votes: Math.floor(Math.random()*14)+2, seed:true});
     }
+    submissions[r.id]=arr;
+  });
+  store.set('PB_submissions',submissions); store.set('PB_seeded',true);
+}
+seed();
+submissions = store.get('PB_submissions',{});
+votes = {}; Object.keys(submissions).forEach(rid=>submissions[rid].forEach(s=>votes[s.id]=s.votes));
 
-    function selectAnswer(selected, btn) {
-      if (answered) return;
-      answered = true;
-      clearInterval(interval);
+/* ============ HELPERS ============ */
+function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',2600)}
+function openModal(id){$(id).classList.add('open')}
+function closeModal(id){$(id).classList.remove('open')}
+function money(n){return '$'+Number(n).toFixed(2)}
+function balKey(){return 'PB_wallet_'+user.email}
+function txKey(){return 'PB_tx_'+user.email}
+function getBal(){return user? (store.get(balKey(), user.bonus||0)) : 0}
+function setBal(v){store.set(balKey(),v);renderWallet()}
+function getTx(){return user? store.get(txKey(),[]) : []}
+function addTx(type,amount,detail){const a=getTx();a.unshift({t:new Date().toLocaleString(),type,amount,detail});store.set(txKey(),a);renderWallet()}
+function requireAuth(){if(!user){openModal('authModal');toast('Please login / sign up first');return false}return true}
+function poolOf(r){return r.fee*r.seats}
+function prizeSplit(r){const net=poolOf(r)*0.9;return [net*0.5,net*0.3,net*0.2]}
+function hasJoined(rid){return joined.includes(rid)}
 
-      const correct = quizData[currentQuestion].answer;
-      const buttons = document.querySelectorAll(".option-btn");
+/* ============ AUTH ============ */
+function switchTab(w){authTab=w;$('tabLogin').classList.toggle('active',w==='login');$('tabSignup').classList.toggle('active',w==='signup');$('loginForm').style.display=w==='login'?'block':'none';$('signupForm').style.display=w==='signup'?'block':'none'}
+function emailAuth(mode){
+  const email = mode==='login'? $('loginEmail').value.trim().toLowerCase() : $('suEmail').value.trim().toLowerCase();
+  const pass = mode==='login'? $('loginPass').value : $('suPass').value;
+  const name = mode==='login'? email.split('@')[0] : ($('suName').value.trim()||email.split('@')[0]);
+  if(!email||!email.includes('@')) return toast('Enter a valid email');
+  if(!pass||pass.length<6) return toast('Password must be 6+ characters');
+  const users=store.get('PB_users',{});
+  if(mode==='signup'){
+    if(users[email]) return toast('Account exists — please login');
+    users[email]={name,email,pass,provider:'email'}; store.set('PB_users',users);
+    loginUser({name,email,provider:'email'}, true);
+  }else{
+    if(!users[email]) return toast('No account found — please sign up');
+    if(users[email].pass!==pass) return toast('Wrong password');
+    loginUser({name:users[email].name,email,provider:'email'}, false);
+  }
+}
+function gmailLogin(){
+  // DEMO Gmail login — swap with Firebase GoogleAuthProvider in production
+  const email='designer.'+Math.floor(Math.random()*9000+1000)+'@gmail.com';
+  const users=store.get('PB_users',{});
+  if(!users[email]) users[email]={name:'Gmail Designer',email,pass:'google-oauth',provider:'gmail'};
+  store.set('PB_users',users);
+  loginUser({name:'Gmail Designer',email,provider:'gmail'}, !store.get(balKey(email)||null) && true);
+  toast('Signed in with Gmail (demo). Connect Firebase for real Google auth.');
+}
+function loginUser(u,isNew){
+  user=u; store.set('PB_user',user);
+  joined=store.get('PB_joined_'+user.email,[]);
+  myVotes=store.get('PB_myvotes_'+user.email,{});
+  if(store.get(balKey(),null)===null){ store.set(balKey(), isNew?2:0); if(isNew) store.set(txKey(),[{t:new Date().toLocaleString(),type:'bonus',amount:2,detail:'Welcome $2 signup bonus'}]); }
+  closeModal('authModal'); renderAll(); toast('Welcome, '+u.name+'!');
+}
+function logout(){localStorage.removeItem('PB_user');user=null;joined=[];myVotes={};renderAll();toast('Logged out')}
+function renderAuthBtn(){ $('authBtn').textContent = user? ('Hi, '+user.name.split(' ')[0]+' • Logout') : 'Login / Sign Up'; }
 
-      buttons.forEach(b => {
-        b.disabled = true;
-        if (b.textContent === correct) {
-          b.style.borderColor = "#22c55e";
-          b.style.background = "#14532d";
-        }
-      });
+/* ============ WALLET ============ */
+function doDeposit(fromModal){
+  if(!requireAuth()) return;
+  const amt = fromModal? Number($('depCustom').value) : depSelected;
+  if(!amt||amt<5) return toast('Minimum deposit is $5');
+  const method = fromModal? $('depMethod2').value : $('depMethod').value;
+  toast('Processing '+money(amt)+' via '+method+'...');
+  setTimeout(()=>{
+    setBal(getBal()+amt); addTx('deposit',amt,'Deposit via '+method);
+    closeModal('depositModal'); toast('Deposit successful! '+money(amt)+' added.');
+  },1200);
+}
+function doWithdraw(){
+  if(!requireAuth()) return;
+  const amt=Number($('wdAmt').value);
+  if(!amt||amt<10) return toast('Minimum withdraw is $10');
+  if(amt>getBal()) return toast('Insufficient balance. Deposit or win first.');
+  if(!$('wdAcc').value.trim()) return toast('Enter your account number');
+  setBal(getBal()-amt); addTx('withdraw',-amt,'Withdraw to '+$('wdMethod').value+' • '+$('wdAcc').value+' (PENDING)');
+  closeModal('withdrawModal'); toast('Withdrawal requested! Arrives within 24h (demo).');
+}
+function renderWallet(){
+  const b=getBal();
+  $('navBalance').textContent=money(b); $('walletBalance').textContent=money(b);
+  $('walletUser').textContent=user? ('Logged in as '+user.name+' • '+user.email) : 'Not logged in';
+  const tx=getTx();
+  $('txList').innerHTML = tx.length? tx.map(x=>'<div class="tx"><span>'+x.t+'<br><b>'+x.type.toUpperCase()+'</b> — '+x.detail+'</span><span class="'+(x.amount>0?'pos':(x.detail.includes('PENDING')?'pen':'neg'))+'">'+(x.amount>0?'+':'')+money(x.amount)+'</span></div>').join('') : '<p style="color:#94a3b8;font-size:.85rem">No transactions yet.</p>';
+}
 
-      if (selected === correct) {
-        const gained = 10 + timer;
-        score += gained;
-        scoreEl.textContent = score;
-        btn.style.borderColor = "#22c55e";
-        btn.style.background = "#14532d";
-        resultEl.textContent = "Correct! +" + gained + " points";
-      } else {
-        btn.style.borderColor = "#ef4444";
-        btn.style.background = "#7f1d1d";
-        resultEl.textContent = "Wrong answer!";
-      }
+/* ============ ROOMS ============ */
+let filter='all';
+document.querySelectorAll('#filterBar .chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('#filterBar .chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');filter=c.dataset.f;renderRooms()});
+document.querySelectorAll('#depAmts .amt').forEach(a=>a.onclick=()=>{document.querySelectorAll('#depAmts .amt').forEach(x=>x.classList.remove('active'));a.classList.add('active');depSelected=Number(a.dataset.v)});
+function renderRooms(){
+  const grid=$('roomsGrid'); grid.innerHTML='';
+  ROOMS.filter(r=>filter==='all'||r.cat===filter).forEach(r=>{
+    const pct=Math.round(r.filled/r.seats*100);
+    const [p1,p2,p3]=prizeSplit(r);
+    const j=hasJoined(r.id);
+    const el=document.createElement('div'); el.className='room-card';
+    el.innerHTML=
+     '<div class="room-cover" style="background:'+r.grad+'"><div class="room-live">● LIVE '+r.mins+'m left</div><div class="room-fee">$'+r.fee+' entry</div><div>'+r.title+'</div></div>'+
+     '<div class="room-body"><div class="room-meta"><span>📁 '+r.cat+'</span><span>👥 '+r.filled+'/'+r.seats+'</span><span>⏱ 30 min</span>'+(j?'<span style="color:#22c55e;border-color:#22c55e">✔ Joined</span>':'<span style="color:#facc15;border-color:#facc15">🔒 Pay to enter</span>')+'</div>'+
+     '<div class="prize-box">🏆 Pool <b>'+money(poolOf(r))+'</b> → 1st <b>'+money(p1)+'</b> • 2nd <b>'+money(p2)+'</b> • 3rd <b>'+money(p3)+'</b></div>'+
+     '<div class="progress"><i style="width:'+pct+'%"></i></div>'+
+     '<div class="room-actions">'+(j? '<button class="btn btn-sm" data-open="'+r.id+'">Enter Battle →</button>' : '<button class="btn btn-sm btn-gold" data-join="'+r.id+'">Pay $'+r.fee+' & Join</button><button class="btn btn-sm btn-ghost" data-open="'+r.id+'">Preview</button>')+'</div></div>';
+    grid.appendChild(el);
+  });
+  grid.querySelectorAll('[data-join]').forEach(b=>b.onclick=()=>joinRoom(b.dataset.join));
+  grid.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openRoom(b.dataset.open));
+}
+function joinRoom(rid){
+  if(!requireAuth()) return;
+  const r=ROOMS.find(x=>x.id===rid);
+  if(hasJoined(rid)) return openRoom(rid);
+  if(r.filled>=r.seats) return toast('Room is full!');
+  if(getBal()<r.fee){ openModal('depositModal'); return toast('Insufficient balance. Deposit at least '+money(r.fee)); }
+  if(!confirm('Pay '+money(r.fee)+' entry for "'+r.title+'"? This cannot be undone.')) return;
+  setBal(getBal()-r.fee); addTx('entry',-r.fee,'Entry fee — '+r.title);
+  joined.push(rid); store.set('PB_joined_'+user.email,joined); r.filled++;
+  renderRooms(); openRoom(rid); toast('Joined! Submit your work before the timer ends.');
+}
+function openRoom(rid){
+  const r=ROOMS.find(x=>x.id===rid); currentRoom=r;
+  const j=hasJoined(rid);
+  const [p1,p2,p3]=prizeSplit(r);
+  const list=(submissions[rid]||[]).slice().sort((a,b)=>(votes[b.id]||0)-(votes[a.id]||0));
+  let html='<h2>'+r.title+'</h2><p class="sub">'+r.cat+' • $'+r.fee+' entry • Pool '+money(poolOf(r))+' • 1st '+money(p1)+' / 2nd '+money(p2)+' / 3rd '+money(p3)+'</p>'+
+   '<div class="timer-box"><div>⏱ Time left: <span class="t" id="roomTimer">30:00</span></div><div>👥 '+r.filled+'/'+r.seats+' joined</div><div>'+(j?'✔ You are IN':'🔒 Locked — pay entry')+'</div></div>';
+  if(!j){
+    html+='<div class="lock-box"><h3>🔒 Members-only battle</h3><p style="font-size:.88rem;color:#fcd34d">Pay '+money(r.fee)+' entry fee to unlock the brief, submissions and voting. No free entry.</p><br><button class="btn btn-gold" onclick="joinRoom(\''+rid+'\')">Pay '+money(r.fee)+' & Unlock Now</button></div>'+
+    '<div class="notice"><b>Brief (hidden preview):</b> ████████████ pay to reveal the full design brief and entries.</div>';
+  }else{
+    html+='<div class="card" style="margin-bottom:10px"><h3>📋 Your Brief</h3><p>'+r.brief+'</p></div>'+
+    '<div class="card"><h3>🚀 Submit Your Work (before timer ends)</h3><label>Entry title</label><input id="subTitle" placeholder="e.g. Desert Survivor — Final V3" /><label>Image URL (upload to imgbb / postimages, paste link)</label><input id="subImg" placeholder="https://..." /><label>AI prompt / description</label><textarea id="subPrompt" rows="2" placeholder="Prompt or process you used..."></textarea><button class="btn" style="width:100%" onclick="submitWork()">Submit Entry</button></div>'+
+    '<h3 style="margin:14px 0 4px">🗳 Submissions & Voting ('+list.length+') — 1 vote each, no self-vote</h3><div class="sub-grid">'+
+    list.map((s,i)=>'<div class="sub-card"><img src="'+s.img+'" loading="lazy" onerror="this.src=\'https://picsum.photos/seed/fallback'+i+'/400/240\'" /><div class="pad">'+(i<3?'<span class="rank">#'+(i+1)+' '+(i===0?'🥇':i===1?'🥈':'🥉')+'</span><br>':'')+'<b>'+escapeHtml(s.title)+'</b><p>by '+escapeHtml(s.author)+'</p><p>'+escapeHtml((s.prompt||'').slice(0,90))+'</p><div class="vote-row"><span>❤ <b>'+(votes[s.id]||0)+'</b> votes</span><button class="btn-sm btn" onclick="voteFor(\''+rid+'\',\''+s.id+'\')">Vote</button></div></div></div>').join('')+'</div>';
+  }
+  $('roomDetail').innerHTML=html;
+  openModal('roomModal');
+  startTimer(r.mins*60);
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function startTimer(sec){
+  clearInterval(timerInt);
+  const el=()=>$('roomTimer');
+  function tick(){ if(!el()){clearInterval(timerInt);return} const m=Math.floor(sec/60),s=sec%60; el().textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); if(sec<=0){clearInterval(timerInt);toast('Time is up! Voting continues.')} sec--; }
+  tick(); timerInt=setInterval(tick,1000);
+}
+function submitWork(){
+  if(!currentRoom||!hasJoined(currentRoom.id)) return toast('Join the room first');
+  const t=$('subTitle').value.trim(), img=$('subImg').value.trim(), pr=$('subPrompt').value.trim();
+  if(!t||!img) return toast('Title + image URL required');
+  const entry={id:'u'+Date.now(),author:user.name,title:t,img,prompt:pr||'—',votes:0};
+  submissions[currentRoom.id]=submissions[currentRoom.id]||[]; submissions[currentRoom.id].push(entry); votes[entry.id]=0;
+  store.set('PB_submissions',submissions);
+  // auto-update filled display
+  openRoom(currentRoom.id); toast('Entry submitted! Good luck 🍀');
+}
+function voteFor(rid,sid){
+  if(!requireAuth()) return;
+  if(!hasJoined(rid)) return toast('Only paid members can vote');
+  if(myVotes[rid]) return toast('You already voted in this room');
+  const entry=(submissions[rid]||[]).find(s=>s.id===sid);
+  if(entry&&entry.author===user.name) return toast('You cannot vote for yourself');
+  votes[sid]=(votes[sid]||0)+1; entry.votes=votes[sid];
+  myVotes[rid]=sid; store.set('PB_myvotes_'+user.email,myVotes); store.set('PB_submissions',submissions);
+  openRoom(rid); toast('Vote counted! ❤');
+}
+function renderWinners(){
+  const data=[{n:'Mim Akter',r:'Thumbnail Clash',w:56.25},{n:'Tanvir H.',r:'Logo Showdown',w:108},{n:'Sadia R.',r:'AI Portrait Masters',w:33.75},{n:'Rakibul',r:'Gaming Blitz',w:56.25}];
+  $('winners').innerHTML=data.map(d=>'<div class="winner-card"><div style="font-size:2rem">🏆</div><b>'+d.n+'</b><p style="font-size:.85rem;color:#cbd5e1">'+d.r+'</p><p style="color:var(--gold);font-weight:900">+'+money(d.w)+'</p></div>').join('');
+}
 
-      nextBtn.classList.remove("hidden");
-    }
-
-    function disableOptions() {
-      document.querySelectorAll(".option-btn").forEach(b => b.disabled = true);
-    }
-
-    nextBtn.addEventListener("click", () => {
-      currentQuestion++;
-      if (currentQuestion < quizData.length) {
-        loadQuestion();
-      } else {
-        showFinal();
-      }
-    });
-
-    function showFinal() {
-      questionEl.textContent = "Quiz finished!";
-      optionsEl.innerHTML = "";
-      resultEl.textContent = "Your final score is " + score + ".";
-      nextBtn.classList.add("hidden");
-      qnumEl.textContent = quizData.length;
-      timerEl.textContent = 0;
-    }
-
-    loadQuestion();
-  </script>
+/* ============ INIT ============ */
+function renderAll(){renderAuthBtn();renderWallet();renderRooms();renderWinners()}
+$('authBtn').onclick=()=>{ if(user){ if(confirm('Logout from '+user.email+'?')) logout(); } else openModal('authModal'); };
+$('walletBtn').onclick=()=>{ document.getElementById('wallet').scrollIntoView({behavior:'smooth'}); if(!user) openModal('authModal'); };
+document.querySelectorAll('.modal-back').forEach(m=>m.addEventListener('click',e=>{if(e.target===m) m.classList.remove('open')}));
+window.openModal=openModal; window.closeModal=closeModal; window.joinRoom=joinRoom; window.submitWork=submitWork; window.voteFor=voteFor; window.doDeposit=doDeposit; window.doWithdraw=doWithdraw; window.emailAuth=emailAuth; window.gmailLogin=gmailLogin; window.switchTab=switchTab;
+renderAll();
+</script>
 </body>
 </html>

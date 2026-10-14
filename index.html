@@ -1,332 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QuizMint</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { background: #0f172a; color: #fff; line-height: 1.5; }
-    .container { width: 92%; max-width: 900px; margin: auto; }
-    header { padding: 22px 0; text-align: center; }
-    header h1 { font-size: 2rem; color: #38bdf8; }
-    header p { color: #cbd5e1; margin-top: 8px; }
-    .hero {
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      padding: 24px;
-      border-radius: 18px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    }
-    .hero h2 { font-size: 1.4rem; margin-bottom: 10px; }
-    .hero p { color: #cbd5e1; margin-bottom: 14px; }
-    .btn {
-      display: inline-block;
-      background: #38bdf8;
-      color: #00111a;
-      padding: 12px 18px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-    }
-    .section-title { margin: 24px 0 14px; font-size: 1.25rem; color: #f8fafc; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 14px;
-    }
-    .card {
-      background: #1e293b;
-      padding: 18px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.2);
-    }
-    .card h3 { margin-bottom: 8px; color: #7dd3fc; }
-    .card p { color: #cbd5e1; font-size: 0.95rem; }
-    .rooms {
-      display: grid;
-      gap: 12px;
-      margin-top: 12px;
-    }
-    .room {
-      background: #1e293b;
-      padding: 16px;
-      border-radius: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .room strong { color: #f8fafc; }
-    .room span { color: #94a3b8; font-size: 0.92rem; display: block; }
-    .quiz-box {
-      background: #111827;
-      margin-top: 28px;
-      padding: 20px;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    }
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-    .top-bar div {
-      background: #1e293b;
-      padding: 10px 14px;
-      border-radius: 12px;
-      color: #cbd5e1;
-    }
-    #question {
-      font-size: 1.2rem;
-      margin-bottom: 16px;
-    }
-    .options {
-      display: grid;
-      gap: 12px;
-    }
-    .option-btn {
-      background: #1e293b;
-      color: white;
-      border: 2px solid transparent;
-      padding: 14px;
-      border-radius: 12px;
-      text-align: left;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .option-btn:hover { border-color: #38bdf8; }
-    .result {
-      margin-top: 18px;
-      font-weight: bold;
-      color: #facc15;
-    }
-    .hidden { display: none; }
-    footer {
-      margin: 32px 0 24px;
-      text-align: center;
-      color: #94a3b8;
-      font-size: 0.92rem;
-    }
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.7rem; }
-      .hero h2 { font-size: 1.2rem; }
-      #question { font-size: 1.05rem; }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>QuizMint Arena — Skill Tournament Demo (App 1)</title>
+<style>
+:root{--bg:#0b1220;--panel:#111c33;--panel2:#162544;--line:#24365c;--txt:#e8eefc;--mut:#93a4c7;--acc:#38bdf8;--acc2:#a78bfa;--ok:#22c55e;--warn:#facc15;--bad:#ef4444}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Arial,sans-serif}
+body{background:radial-gradient(1200px 600px at 20% -10%,#1b2f5e 0%,var(--bg) 55%) fixed,var(--bg);color:var(--txt);line-height:1.5}
+a{color:var(--acc)}button{font:inherit}
+.container{width:94%;max-width:1240px;margin:auto;padding-bottom:60px}
+header.top{position:sticky;top:0;z-index:20;background:rgba(11,18,32,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{width:94%;max-width:1240px;margin:auto;display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 0;flex-wrap:wrap}
+.brand{display:flex;gap:10px;align-items:center}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-weight:900;color:#04121d}
+.brand h1{font-size:1.15rem}.brand small{color:var(--mut);display:block;font-size:.75rem}
+.wallets{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:.9rem}
+.pill b{color:#fff}.pill span{color:var(--mut);font-size:.78rem;display:block}
+.btn{display:inline-block;background:var(--acc);color:#04121d;padding:10px 14px;border-radius:11px;font-weight:800;border:none;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.btn.violet{background:var(--acc2);color:#14092b}.btn.green{background:var(--ok);color:#04170b}.btn.red{background:var(--bad);color:#fff}
+.btn:disabled{opacity:.5;cursor:not-allowed}.btn.sm{padding:7px 10px;font-size:.85rem;border-radius:9px}
+.notice{background:#1a2340;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:14px 0;color:var(--mut);font-size:.9rem}
+.notice b{color:var(--warn)}
+.grid3{display:grid;grid-template-columns:300px 1fr 300px;gap:14px;margin-top:14px}
+@media(max-width:1050px){.grid3{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--panel),#0e1830);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.card h2{font-size:1rem;margin-bottom:10px}.card h3{font-size:.92rem;color:var(--acc);margin:10px 0 6px}
+.mut{color:var(--mut);font-size:.88rem}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.sp{justify-content:space-between}
+.fee-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.fee{border:1px solid var(--line);border-radius:11px;padding:9px;text-align:center;cursor:pointer;background:#0d1730}
+.fee.sel{border-color:var(--acc);background:#0f2444;box-shadow:0 0 0 1px var(--acc) inset}
+.fee b{display:block}.fee span{color:var(--mut);font-size:.78rem}
+.room{border:1px solid var(--line);border-radius:13px;padding:11px;margin:9px 0;background:#0d1730}
+.room.live{border-color:#2b4d8a}.room strong{font-size:.95rem}.room .meta{color:var(--mut);font-size:.82rem;margin:4px 0}
+.prize{font-size:.82rem;color:#c4f5d3;background:#0d2b1a;border:1px solid #1d5c34;padding:6px 8px;border-radius:9px;margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:.86rem}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line)}th{color:var(--mut);font-weight:600}
+#gameCanvas{width:100%;height:300px;border-radius:12px;background:#070d1d;border:1px solid var(--line);display:block}
+#typingInput{width:100%;margin-top:10px;background:#070d1d;border:1px solid var(--line);color:#fff;border-radius:10px;padding:12px;font-size:1rem}
+.mathOpts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.mathOpts button{background:#0d1730;border:1px solid var(--line);color:#fff;border-radius:10px;padding:12px;cursor:pointer}
+.mathOpts button:hover{border-color:var(--acc)}
+.tabs{display:flex;gap:8px;margin:12px 0}.tab{padding:9px 13px;border-radius:10px;border:1px solid var(--line);background:#0d1730;color:var(--txt);cursor:pointer}
+.tab.sel{background:var(--acc);color:#04121d;font-weight:800;border-color:var(--acc)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50;padding:16px}
+.modal.open{display:grid}.sheet{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:18px;max-width:440px;width:100%}
+.sheet label{display:block;font-size:.84rem;color:var(--mut);margin:10px 0 4px}
+.sheet input,.sheet select{width:100%;background:#070d1d;border:1px solid var(--line);color:#fff;border-radius:10px;padding:11px}
+.kbd{background:#070d1d;border:1px solid var(--line);border-radius:7px;padding:1px 7px;font-size:.82rem}
+.warnbox{background:#2e220a;border:1px solid #8a6d1b;color:#ffe58a;border-radius:11px;padding:10px;margin-top:10px;font-size:.87rem}
+.dq{background:#3a1010;border:1px solid #8a2323;color:#ffb4b4;border-radius:11px;padding:10px;margin-top:10px;font-size:.87rem}
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px;box-shadow:0 0 8px var(--ok)}
+footer{margin-top:26px;color:var(--mut);font-size:.83rem;text-align:center}
+code{font-size:.82rem}
+</style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>QuizMint</h1>
-      <p>Play smart. Learn fast. Rise on the leaderboard.</p>
-    </header>
+<header class="top"><div class="top-in">
+<div class="brand"><div class="logo">QM</div><div><h1>QuizMint Arena <span class="kbd">APP 1 DEMO</span></h1><small>2D Micro-Games • Skill Tournament • 20% rake • static-safe build</small></div></div>
+<div class="wallets">
+<div class="pill"><span>Deposit Balance (Play Credits)</span><b id="wDeposit">€0.00</b></div>
+<div class="pill"><span>Withdrawable Cash (Winnings)</span><b id="wCash">€0.00</b></div>
+<button class="btn sm" id="btnDeposit">Deposit</button>
+<button class="btn sm ghost" id="btnWithdraw">Withdraw</button>
+<button class="btn sm violet" id="btnAuth">Sign in with Google</button>
+</div></div></header>
 
-    <section class="hero">
-      <h2>Daily Free Quiz + Practice Rooms</h2>
-      <p>
-        QuizMint is an English-only quiz platform with category-based challenges,
-        fast-answer scoring, and 30-second questions.
-      </p>
-      <a href="#quiz" class="btn">Start First Quiz</a>
-    </section>
+<div class="container">
+<div class="notice"><b>STATIC DEMO — no real money.</b> This GitHub-Pages build simulates the full-stack spec (Google OAuth → dual-wallet ledger, deposit/withdraw modals, $1/$2/$3/$5/$8/$10 tiers, 1v1 / 5-player / 25-player rooms, 20% commission, ghost-run fallback, canvas games, anti-cheat, Redis-sorted-set leaderboard) with <code>localStorage</code> + an in-page mock server validator. Production needs: Next.js + Supabase Auth + Postgres ledger + Redis Sorted Sets + Socket.io/Colyseus authoritative server + PSP (Stripe/Adyen) + Bizum/SEPA/PayPal/Tremendous + DGOJ licence + KYC/AML + 18+ checks. See <code>PROD_NOTES</code> tab.</div>
 
-    <h2 class="section-title">Categories</h2>
-    <section class="grid">
-      <div class="card">
-        <h3>Mathematics</h3>
-        <p>Percentages, ratios, algebra, and logic-based questions.</p>
-      </div>
-      <div class="card">
-        <h3>History</h3>
-        <p>World history, civilizations, events, and famous leaders.</p>
-      </div>
-      <div class="card">
-        <h3>Music</h3>
-        <p>Basic music knowledge, rhythm, notes, and instruments.</p>
-      </div>
-      <div class="card">
-        <h3>Mixed Quiz</h3>
-        <p>A mix of general knowledge, logic, and fun challenge questions.</p>
-      </div>
-    </section>
+<div class="tabs">
+<button class="tab sel" data-tab="play">Play</button>
+<button class="tab" data-tab="earn">Earnings &amp; Ledger</button>
+<button class="tab" data-tab="admin">Admin Payouts</button>
+<button class="tab" data-tab="prod">PROD_NOTES</button>
+</div>
 
-    <h2 class="section-title">Quiz Rooms</h2>
-    <section class="rooms">
-      <div class="room">
-        <div>
-          <strong>Daily Free Quiz</strong>
-          <span>12 questions • 50 seats • Top 5 winners</span>
-        </div>
-        <button class="btn" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Play</button>
-      </div>
+<!-- PLAY -->
+<div id="tab-play">
+<div class="grid3">
+<!-- LOBBY -->
+<div class="card">
+<h2><span class="live-dot"></span>Lobby — entry tiers</h2>
+<div class="mut">Pick fee, room size, game. Prize = 80% of pool (20% platform). Grand split Top3: 50/30/20.</div>
+<h3>Entry fee</h3><div class="fee-grid" id="feeGrid"></div>
+<h3>Room size (cold-start safe)</h3>
+<div class="row" id="roomBtns">
+<button class="btn sm ghost" data-room="h2h">Head-to-Head (2p)</button>
+<button class="btn sm ghost" data-room="micro">Micro-Pool (5p)</button>
+<button class="btn sm ghost" data-room="grand">Grand Arena (25p)</button>
+</div>
+<h3>Skill game (5-min, canvas)</h3>
+<div class="row">
+<button class="btn sm" data-game="typing">A: Speed Typing Race</button>
+<button class="btn sm violet" data-game="math">B: Fast Math Arena</button>
+</div>
+<div class="row" style="margin-top:8px"><label class="mut"><input type="checkbox" id="quickMode" checked /> Quick demo (60s instead of 300s)</label></div>
+<div id="rooms"></div>
+</div>
 
-      <div class="room">
-        <div>
-          <strong>Starter Room</strong>
-          <span>$1 entry • 10 questions • 4 easy + 6 hard</span>
-        </div>
-        <button class="btn">Preview</button>
-      </div>
+<!-- ARENA -->
+<div class="card">
+<div class="row sp"><h2 id="arenaTitle">Arena — select a room to join</h2><div class="mut" id="matchTimer"></div></div>
+<div class="mut" id="arenaMeta">Client streams <code>timestamped input events</code> → mock server validator computes score → mock Redis Sorted Set updates. Scores are <b>never</b> trusted from client.</div>
+<canvas id="gameCanvas" width="760" height="300"></canvas>
+<input id="typingInput" placeholder="Typing input activates during Typing Race…" autocomplete="off" />
+<div class="mathOpts" id="mathOpts" style="display:none"></div>
+<div class="row" style="margin-top:10px">
+<button class="btn green" id="btnJoin">Join &amp; Pay Entry</button>
+<button class="btn ghost" id="btnStart">Start Match</button>
+<button class="btn red" id="btnQuit">Forfeit</button>
+<span class="mut" id="ghostMsg"></span>
+</div>
+<div id="acWarn"></div>
+<div class="row" style="margin-top:8px"><span class="mut">Score: <b id="liveScore">0</b> • Events streamed: <b id="evCount">0</b> • Focus strikes: <b id="strikes">0</b>/2</span></div>
+</div>
 
-      <div class="room">
-        <div>
-          <strong>Standard Room</strong>
-          <span>$2 entry • 10 questions • Speed bonus enabled</span>
-        </div>
-        <button class="btn">Preview</button>
-      </div>
-    </section>
+<!-- LEADERBOARD -->
+<div class="card">
+<h2><span class="live-dot"></span>Live Leaderboard (Redis ZSET mock)</h2>
+<div class="mut">Composite = score + time-bonus fraction (earlier finish wins ties).</div>
+<table><thead><tr><th>#</th><th>Player</th><th>Score</th></tr></thead><tbody id="lbBody"></tbody></table>
+<h3>Prize breakdown (selected)</h3><div id="prizeBox" class="mut">Select fee + room.</div>
+<h3>Session</h3><div class="mut" id="sessBox">Not signed in.</div>
+</div>
+</div>
+</div>
 
-    <section class="quiz-box" id="quiz">
-      <h2 class="section-title" style="margin-top:0;">First Playable Quiz</h2>
+<!-- EARNINGS -->
+<div id="tab-earn" style="display:none"><div class="card">
+<h2>Earnings history &amp; dual-wallet ledger</h2>
+<div class="row"><button class="btn sm ghost" id="btnExport">Export CSV</button><span class="mut" id="earnSum"></span></div>
+<table><thead><tr><th>Time</th><th>Type</th><th>Wallet</th><th>Amount</th><th>Detail</th></tr></thead><tbody id="ledgerBody"></tbody></table>
+</div></div>
 
-      <div class="top-bar">
-        <div>Question: <span id="qnum">1</span>/3</div>
-        <div>Time: <span id="timer">30</span>s</div>
-        <div>Score: <span id="score">0</span></div>
-      </div>
+<!-- ADMIN -->
+<div id="tab-admin" style="display:none"><div class="card">
+<h2>Admin payout approval queue (demo)</h2>
+<div class="mut">Production: manual review + PSP payout via SEPA/PayPal/Tremendous API + audit log.</div>
+<table><thead><tr><th>ID</th><th>User</th><th>Method</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead><tbody id="payoutBody"></tbody></table>
+</div></div>
 
-      <div id="question">Loading question...</div>
-      <div class="options" id="options"></div>
-      <div class="result" id="result"></div>
-      <button class="btn hidden" id="nextBtn">Next Question</button>
-    </section>
+<!-- PROD -->
+<div id="tab-prod" style="display:none"><div class="card">
+<h2>What production still needs (not possible on static hosting)</h2>
+<table><tbody>
+<tr><td><b>Auth</b></td><td>Supabase Google OAuth / NextAuth, server session, 18+ + KYC gating before deposits.</td></tr>
+<tr><td><b>Ledger</b></td><td>Postgres double-entry: <code>deposit_balance</code> vs <code>withdrawable_balance</code>. Never let winnings be staked to prevent money-laundering loops; entry fees only from deposit wallet.</td></tr>
+<tr><td><b>Payments ES/global</b></td><td>Stripe/Adyen for Card + Apple Pay + Google Pay; Bizum via Spanish acquirer webhook; withdrawals SEPA-IBAN / PayPal Payouts / Tremendous API. Admin approval queue + idempotency keys.</td></tr>
+<tr><td><b>Realtime</b></td><td>Redis Sorted Sets: <code>ZADD lb:{matchId} composite member</code>; matchmaking queues per fee/room; Socket.io/Colyseus authoritative loop at 10–20Hz; client sends only inputs.</td></tr>
+<tr><td><b>Anti-cheat</b></td><td>Server reconciles input timestamps vs prompt seeds; rate-limits; device attestation; visibility/blur/DQ; <code>isTrusted</code>; webdriver/WebGL bot flags; canvas prompt + noise; per-question entropy seeds.</td></tr>
+<tr><td><b>Legal (Spain/EU)</b></td><td>DGOJ licence for pay-to-enter cash-prize skill games, T&Cs, RNG/skill certification, AML/KYC, self-exclusion, responsible-gaming limits. Get counsel before real money.</td></tr>
+</tbody></table>
+</div></div>
 
-    <footer>
-      QuizMint demo is live on GitHub Pages. More rooms, login, and leaderboard can be added next.
-    </footer>
-  </div>
+<footer>QuizMint Arena demo • Dual-wallet • 20% rake • Ghost-run fallback • Canvas + noise • <span id="botFlag"></span></footer>
+</div>
 
-  <script>
-    const quizData = [
-      {
-        question: "What is 25% of 200?",
-        options: ["40", "50", "25", "75"],
-        answer: "50"
-      },
-      {
-        question: "Which civilization built the pyramids of Giza?",
-        options: ["Romans", "Greeks", "Egyptians", "Persians"],
-        answer: "Egyptians"
-      },
-      {
-        question: "How many lines are there in a musical staff?",
-        options: ["4", "5", "6", "7"],
-        answer: "5"
-      }
-    ];
+<!-- DEPOSIT MODAL -->
+<div class="modal" id="mDeposit"><div class="sheet">
+<h2>Top up Play Credits</h2><div class="mut">€1–€100. Demo only — no charge.</div>
+<label>Amount (EUR)</label><input id="depAmt" type="number" min="1" max="100" value="5" />
+<label>Method</label><select id="depMethod"><option>Card</option><option>Apple Pay</option><option>Google Pay</option><option>Bizum (ES webhook demo)</option></select>
+<div class="row" style="margin-top:12px"><button class="btn" id="depGo">Confirm deposit</button><button class="btn ghost" data-close>Cancel</button></div>
+</div></div>
 
-    let currentQuestion = 0;
-    let score = 0;
-    let timer = 30;
-    let interval;
-    let answered = false;
+<!-- WITHDRAW MODAL -->
+<div class="modal" id="mWithdraw"><div class="sheet">
+<h2>Withdraw winnings</h2><div class="mut">Only from Withdrawable Cash Balance.</div>
+<label>Amount (EUR)</label><input id="wdAmt" type="number" min="1" value="5" />
+<label>Rail</label><select id="wdMethod"><option>SEPA Bank (IBAN)</option><option>PayPal email</option><option>Tremendous (Visa/Cash/Gift)</option></select>
+<label>Destination</label><input id="wdDest" placeholder="IBAN / PayPal email / Tremendous ID" />
+<div class="row" style="margin-top:12px"><button class="btn" id="wdGo">Request payout</button><button class="btn ghost" data-close>Cancel</button></div>
+</div></div>
 
-    const questionEl = document.getElementById("question");
-    const optionsEl = document.getElementById("options");
-    const resultEl = document.getElementById("result");
-    const nextBtn = document.getElementById("nextBtn");
-    const timerEl = document.getElementById("timer");
-    const scoreEl = document.getElementById("score");
-    const qnumEl = document.getElementById("qnum");
+<script>
+/* ============ Mock persistence (stands in for Supabase+Redis) ============ */
+const LS={get:(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+let user=LS.get('qma_user',null);
+let wallets=LS.get('qma_wallets',{deposit:0,cash:0});
+let ledger=LS.get('qma_ledger',[]);
+let payouts=LS.get('qma_payouts',[]);
+let lb=LS.get('qma_lb',[
+ {name:'Ghost_Aina (bot)',score:184},{name:'Ghost_Marco (bot)',score:156},
+ {name:'Ghost_Lena (bot)',score:132},{name:'Ghost_Yusuf (bot)',score:98}]);
+const FEES=[1,2,3,5,8,10];
+const ROOMS={h2h:{n:2,label:'Head-to-Head (1v1)'},micro:{n:5,label:'Micro-Pool (5p)'},grand:{n:25,label:'Grand Arena (25p)'}};
+let sel={fee:2,room:'micro',game:'typing'};
+const MATCH_FULL=300;
+const cv=document.getElementById('gameCanvas'),ctx=cv.getContext('2d');
 
-    function loadQuestion() {
-      clearInterval(interval);
-      timer = 30;
-      answered = false;
-      timerEl.textContent = timer;
-      resultEl.textContent = "";
-      nextBtn.classList.add("hidden");
+/* ============ Helpers ============ */
+const $=id=>document.getElementById(id);
+const eur=n=>'€'+Number(n).toFixed(2);
+function save(){LS.set('qma_wallets',wallets);LS.set('qma_ledger',ledger);LS.set('qma_payouts',payouts);LS.set('qma_lb',lb);LS.set('qma_user',user)}
+function addLedger(type,wallet,amount,detail){ledger.unshift({t:new Date().toISOString(),type,wallet,amount,detail});save();renderLedger()}
+function prizeCalc(){const pool=sel.fee*ROOMS[sel.room].n,rake=pool*0.20,dist=pool-rake;
+ let rows=[];if(ROOMS[sel.room].n===2)rows=[{p:'1st (winner)',amt:dist}];
+ else rows=[{p:'1st 50%',amt:dist*0.5},{p:'2nd 30%',amt:dist*0.3},{p:'3rd 20%',amt:dist*0.2}];
+ return{pool,rake,dist,rows}}
 
-      const q = quizData[currentQuestion];
-      qnumEl.textContent = currentQuestion + 1;
-      questionEl.textContent = q.question;
-      optionsEl.innerHTML = "";
+/* ============ Render ============ */
+function renderWallets(){$('wDeposit').textContent=eur(wallets.deposit);$('wCash').textContent=eur(wallets.cash)}
+function renderFees(){const g=$('feeGrid');g.innerHTML='';FEES.forEach(f=>{const d=document.createElement('div');d.className='fee'+(f===sel.fee?' sel':'');d.innerHTML=`<b>$${f} / €${f}</b><span>entry</span>`;d.onclick=e=>{if(!e.isTrusted)return dq('Untrusted click');sel.fee=f;renderAll()};g.appendChild(d)})}
+function renderRooms(){const box=$('rooms');box.innerHTML='';Object.entries(ROOMS).forEach(([k,r])=>{
+ const pool=sel.fee*r.n,rake=(pool*0.2).toFixed(2),dist=(pool*0.8).toFixed(2);
+ const simSeats=k==='h2h'?1:Math.min(r.n-1,2+Math.floor(Math.random()*3));
+ const d=document.createElement('div');d.className='room'+(k===sel.room?' live':'');
+ d.innerHTML=`<strong>${r.label}</strong><div class="meta">$${sel.fee} × ${r.n} players • ${simSeats}/${r.n} seated • pool $${pool.toFixed(2)} → prizes $${dist} • rake $${rake}</div><div class="prize">Winner-takes${r.n>2?' Top3 50/30/20':''} • 20% platform • ghost-run after 30s</div>`;
+ const b=document.createElement('button');b.className='btn sm'+(k===sel.room?'':' ghost');b.textContent=k===sel.room?'Selected':'Select';b.onclick=e=>{if(!e.isTrusted)return dq('Untrusted click');sel.room=k;renderAll()};
+ d.appendChild(b);box.appendChild(d)})}
+function renderPrize(){const p=prizeCalc();$('prizeBox').innerHTML=`Pool €${p.pool.toFixed(2)} • Rake (20%) €${p.rake.toFixed(2)} • To players €${p.dist.toFixed(2)}<br>`+p.rows.map(r=>`${r.p}: <b>€${r.amt.toFixed(2)}</b>`).join(' • ')}
+function renderLB(){$('lbBody').innerHTML=lb.slice().sort((a,b)=>b.score-a.score).slice(0,12).map((e,i)=>`<tr><td>${i+1}</td><td>${e.name}</td><td><b>${Math.round(e.score)}</b></td></tr>`).join('')}
+function renderLedger(){$('ledgerBody').innerHTML=ledger.slice(0,60).map(l=>`<tr><td>${l.t.slice(0,19).replace('T',' ')}</td><td>${l.type}</td><td>${l.wallet}</td><td>${l.amount>=0?'+':''}${eur(l.amount)}</td><td>${l.detail}</td></tr>`).join('')||'<tr><td colspan=5 class=mut>No transactions yet.</td></tr>';
+ const dep=ledger.filter(l=>l.type==='deposit').reduce((s,l)=>s+l.amount,0),win=ledger.filter(l=>l.type==='prize').reduce((s,l)=>s+l.amount,0);
+ $('earnSum').textContent=`Deposited ${eur(dep)} • Won ${eur(win)} • Play credits ${eur(wallets.deposit)} • Cash ${eur(wallets.cash)}`}
+function renderPayouts(){$('payoutBody').innerHTML=payouts.map((p,i)=>`<tr><td>${p.id}</td><td>${p.user}</td><td>${p.method} → ${p.dest}</td><td>${eur(p.amount)}</td><td>${p.status}</td><td>${p.status==='pending'?`<button class="btn sm green" onclick="adminAct(${i},'approved')">Approve</button> <button class="btn sm red" onclick="adminAct(${i},'rejected')">Reject</button>`:'—'}</td></tr>`).join('')||'<tr><td colspan=6 class=mut>No payouts.</td></tr>'}
+function renderSess(){$('sessBox').innerHTML=user?`Signed in as <b>${user.name}</b><br><span class=mut>${user.email} • id ${user.id}</span><br><button class="btn sm ghost" id="btnOut">Sign out</button>`:'Not signed in. Use “Sign in with Google” (demo mock).';
+ const o=$('btnOut');if(o)o.onclick=()=>{user=null;save();renderSess()}}
+function renderAll(){renderWallets();renderFees();renderRooms();renderPrize();renderLB();renderLedger();renderPayouts();renderSess();
+ $('arenaTitle').textContent=`Arena — ${sel.game==='typing'?'Speed Typing Race':'Fast Math Arena'} • €${sel.fee} • ${ROOMS[sel.room].label}`}
+window.adminAct=(i,s)=>{const p=payouts[i];if(s==='rejected'){wallets.cash+=p.amount;addLedger('refund','cash',p.amount,'Payout '+p.id+' rejected')}p.status=s;save();renderPayouts();renderWallets();renderLedger()};
 
-      q.options.forEach(option => {
-        const btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.textContent = option;
-        btn.onclick = () => selectAnswer(option, btn);
-        optionsEl.appendChild(btn);
-      });
+/* ============ Auth (demo mock of Gmail OAuth) ============ */
+$('btnAuth').onclick=e=>{if(!e.isTrusted)return dq('Untrusted click');
+ if(user){alert('Already signed in as '+user.name);return}
+ const name='Player_'+Math.floor(1000+Math.random()*9000);
+ user={id:'u_'+Date.now().toString(36),name,email:name.toLowerCase()+'@gmail.com'};
+ if(!LS.get('qma_seeded',false)){wallets={deposit:10,cash:0};addLedger('bonus','deposit',10,'Welcome demo credits (not real money)');LS.set('qma_seeded',true)}
+ save();renderAll();alert('Signed in (demo) as '+name)};
 
-      interval = setInterval(() => {
-        timer--;
-        timerEl.textContent = timer;
-        if (timer <= 0) {
-          clearInterval(interval);
-          if (!answered) {
-            answered = true;
-            resultEl.textContent = "Time is up!";
-            nextBtn.classList.remove("hidden");
-            disableOptions();
-          }
-        }
-      }, 1000);
-    }
+/* ============ Deposit / Withdraw ============ */
+const open=m=>$(m).classList.add('open'),closeEl=el=>el.closest('.modal').classList.remove('open');
+$('btnDeposit').onclick=()=>open('mDeposit');$('btnWithdraw').onclick=()=>open('mWithdraw');
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=e=>closeEl(e.target));
+$('depGo').onclick=e=>{if(!e.isTrusted)return dq('Untrusted click');
+ let a=Number($('depAmt').value);if(!(a>=1&&a<=100))return alert('Amount must be €1–€100');
+ wallets.deposit+=a;addLedger('deposit','deposit',a,$('depMethod').value+' top-up (DEMO, no charge)');
+ save();renderWallets();$('mDeposit').classList.remove('open')};
+$('wdGo').onclick=e=>{if(!e.isTrusted)return dq('Untrusted click');
+ let a=Number($('wdAmt').value);const dest=$('wdDest').value.trim()||'(no destination)';
+ if(!(a>=1))return alert('Min €1');if(a>wallets.cash)return alert('Insufficient withdrawable cash. Win tournaments first.');
+ wallets.cash-=a;const id='PO-'+Date.now().toString(36).toUpperCase();
+ payouts.unshift({id,user:user?user.name:'guest',method:$('wdMethod').value,dest,amount:a,status:'pending'});
+ addLedger('withdraw_request','cash',-a,id+' '+$('wdMethod').value+' → '+dest+' (pending)');
+ save();renderAll();$('mWithdraw').classList.remove('open')};
 
-    function selectAnswer(selected, btn) {
-      if (answered) return;
-      answered = true;
-      clearInterval(interval);
+/* ============ Tabs / room+game selectors ============ */
+document.querySelectorAll('.tab').forEach(t=>t.onclick=e=>{if(!e.isTrusted)return;
+ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');
+ ['play','earn','admin','prod'].forEach(k=>$('tab-'+k).style.display=t.dataset.tab===k?'block':'none')});
+document.querySelectorAll('#roomBtns button').forEach(b=>b.onclick=e=>{if(!e.isTrusted)return dq('Untrusted click');sel.room=b.dataset.room;renderAll()});
+document.querySelectorAll('[data-game]').forEach(b=>b.onclick=e=>{if(!e.isTrusted)return dq('Untrusted click');sel.game=b.dataset.game;renderAll();drawIdle()});
+$('btnExport').onclick=()=>{const csv='time,type,wallet,amount,detail\n'+ledger.map(l=>[l.t,l.type,l.wallet,l.amount,'"'+l.detail.replace(/"/g,'""')+'"'].join(',')).join('\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='ledger.csv';a.click()};
 
-      const correct = quizData[currentQuestion].answer;
-      const buttons = document.querySelectorAll(".option-btn");
+/* ============ Canvas with noise (anti-scraper) ============ */
+function noisyBG(){ctx.fillStyle='#070d1d';ctx.fillRect(0,0,cv.width,cv.height);
+ for(let i=0;i<450;i++){ctx.fillStyle=`rgba(${60+Math.random()*80|0},${120+Math.random()*80|0},255,${Math.random()*0.08})`;ctx.fillRect(Math.random()*cv.width,Math.random()*cv.height,2,2)}
+ ctx.strokeStyle='#1d335f';for(let i=0;i<6;i++){ctx.beginPath();ctx.moveTo(Math.random()*cv.width,0);ctx.lineTo(Math.random()*cv.width,cv.height);ctx.stroke()}}
+function drawCenter(lines,sub){noisyBG();ctx.textAlign='center';ctx.fillStyle='#e8eefc';ctx.font='bold 22px Inter,Arial';
+ lines.forEach((L,i)=>ctx.fillText(L,cv.width/2,110+i*34));ctx.fillStyle='#93a4c7';ctx.font='14px Inter,Arial';if(sub)ctx.fillText(sub,cv.width/2,240)}
+function drawIdle(){if(state.phase!=='idle')return;noisyBG();ctx.textAlign='center';ctx.fillStyle='#e8eefc';ctx.font='bold 20px Inter,Arial';
+ ctx.fillText(sel.game==='typing'?'SPEED TYPING RACE':'FAST MATH ARENA',cv.width/2,80);
+ ctx.fillStyle='#93a4c7';ctx.font='14px Inter,Arial';ctx.fillText('Prompts render on canvas with noise — DOM scrapers see nothing',cv.width/2,115);
+ ctx.fillText('Join & pay entry → Start → inputs stream with timestamps',cv.width/2,140);
+ ctx.fillText('Tab-switch / blur = strike • 2 strikes = DQ • console clicks blocked',cv.width/2,165)}
 
-      buttons.forEach(b => {
-        b.disabled = true;
-        if (b.textContent === correct) {
-          b.style.borderColor = "#22c55e";
-          b.style.background = "#14532d";
-        }
-      });
+/* ============ Match state + mock server validator ============ */
+let state={phase:'idle',matchId:null,fee:0,events:[],score:0,t0:0,timerId:null,left:0,strikes:0,typing:{target:'',typed:''},math:{q:'',a:0,opts:[],ql:0,correct:0,answered:0},ghostTimer:null};
+const SENTENCES=['the quick brown fox jumps over lazy dogs near river bank','skill pays the bills focus speed accuracy wins tournaments','canvas renders text so extensions cannot copy the prompt','fast fingers steady mind every millisecond counts here','esports arena micro tournaments reward sharp players'];
+function mockServerScore(){ // NEVER trust client score: recompute from event log
+ if(sel.game==='typing'){const tgt=state.typing.target;let ok=0;const keys=state.events.filter(e=>e.k==='key');
+  for(let i=0;i<Math.min(keys.length,tgt.length);i++)if(keys[i].ch===tgt[i])ok++;
+  const secs=Math.max(1,(Date.now()-state.t0)/1000);const wpm=(ok/5)/(secs/60);
+  return Math.round(ok*2+wpm*3)}
+ let m=state.math;return m.correct*20-Math.max(0,(m.answered-m.correct))*5}
+function pushEvent(ev){ev.t=Date.now()-state.t0;state.events.push(ev);$('evCount').textContent=state.events.length;
+ state.score=mockServerScore();$('liveScore').textContent=state.score; // server recompute
+ if(state.events.length%5===0)drawGame()}
+function dq(reason){state.strikes++;$('strikes').textContent=Math.min(2,state.strikes);
+ const box=$('acWarn');
+ if(state.strikes>=2){endMatch(true,'DISQUALIFIED: '+reason);box.innerHTML=`<div class="dq">Anti-cheat DQ — ${reason}. Prize forfeited. (visibility/blur/isTrusted/webdriver)</div>`}
+ else box.innerHTML=`<div class="warnbox">Anti-cheat warning (${state.strikes}/2): ${reason}. Stay focused in the arena tab.</div>`}
 
-      if (selected === correct) {
-        const gained = 10 + timer;
-        score += gained;
-        scoreEl.textContent = score;
-        btn.style.borderColor = "#22c55e";
-        btn.style.background = "#14532d";
-        resultEl.textContent = "Correct! +" + gained + " points";
-      } else {
-        btn.style.borderColor = "#ef4444";
-        btn.style.background = "#7f1d1d";
-        resultEl.textContent = "Wrong answer!";
-      }
+/* ---- Join (pay entry from deposit wallet) + 30s ghost-run fallback ---- */
+$('btnJoin').onclick=e=>{if(!e.isTrusted)return dq('Untrusted click');
+ if(state.phase==='running')return alert('Match already running');
+ if(!user)return alert('Sign in first (demo button, top right).');
+ if(wallets.deposit<sel.fee)return alert('Insufficient Play Credits — Deposit first (demo).');
+ wallets.deposit-=sel.fee;addLedger('entry','deposit',-sel.fee,`Entry €${sel.fee} • ${ROOMS[sel.room].label} • ${sel.game}`);
+ state={...state,phase:'lobby',fee:sel.fee,events:[],score:0,strikes:0};save();renderWallets();
+ $('acWarn').innerHTML='';$('liveScore').textContent='0';$('evCount').textContent='0';$('strikes').textContent='0';
+ let wait=30;$('ghostMsg').textContent=`Finding opponents… ${wait}s (ghost-run fallback at 0s)`;
+ $('btnJoin').disabled=true;drawCenter(['LOBBY LOCKED','Entry paid: €'+sel.fee],'Waiting for room to fill…');
+ clearInterval(state.ghostTimer);
+ state.ghostTimer=setInterval(()=>{wait--;$('ghostMsg').textContent=`Finding opponents… ${wait}s (ghost-run fallback at 0s)`;
+  const found=sel.room==='h2h'?Math.random()<0.12:Math.random()<0.3; // simulated fill
+  if(found){clearInterval(state.ghostTimer);$('ghostMsg').textContent='Opponents found — press Start Match!';drawCenter(['ROOM FILLED','Opponents ready'],'Press Start Match')}
+  if(wait<=0){clearInterval(state.ghostTimer);$('ghostMsg').textContent='Ghost-run: no live opponent — playing vs recorded ghost, prize still pays.';
+   addLedger('ghost','deposit',0,'Ghost-run fallback used (async match vs next joiner)');drawCenter(['GHOST-RUN MODE','Solo run recorded'],'Your timestamped log will be matched async')}},1000)};
 
-      nextBtn.classList.remove("hidden");
-    }
+$('btnStart').onclick=e=>{if(!e.isTrusted)return dq('Untrusted click');startMatch()};
+$('btnQuit').onclick=e=>{if(!e.isTrusted)return;if(state.phase==='running')endMatch(false,'forfeited')};
+function matchSeconds(){$('quickMode')&&$('quickMode').checked;return ($('quickMode')&&$('quickMode').checked)?60:MATCH_FULL}
+function startMatch(){if(state.phase==='running')return;if(state.fee!==sel.fee&&state.phase!=='lobby'){alert('Join & pay entry first.');return}
+ state.phase='running';state.t0=Date.now();state.events=[];state.score=0;state.strikes=0;
+ state.left=matchSeconds();$('matchTimer').textContent='⏱ '+state.left+'s';
+ if(sel.game==='typing'){state.typing={target:SENTENCES[Math.floor(Math.random()*SENTENCES.length)],typed:''};$('typingInput').value='';$('typingInput').style.display='block';$('mathOpts').style.display='none';setTimeout(()=>$('typingInput').focus(),50)}
+ else{state.math={correct:0,answered:0};$('typingInput').style.display='none';$('mathOpts').style.display='grid';nextMath()}
+ drawGame();clearInterval(state.timerId);
+ state.timerId=setInterval(()=>{state.left--;$('matchTimer').textContent='⏱ '+state.left+'s';
+  if(sel.game==='math'){state.math.ql-=1;if(state.math.ql<=0)nextMath(true);else drawGame()}
+  if(state.left<=0)endMatch(false,'finished')},1000)}
 
-    function disableOptions() {
-      document.querySelectorAll(".option-btn").forEach(b => b.disabled = true);
-    }
+/* ---- Typing game ---- */
+$('typingInput').addEventListener('keydown',e=>{if(state.phase!=='running'||sel.game!=='typing')return;
+ if(e.isTrusted===false)return dq('Synthetic key event (isTrusted=false)');
+ pushEvent({k:'key',ch:e.key});});
+$('typingInput').addEventListener('input',e=>{if(state.phase!=='running')return;state.typing.typed=e.target.value.slice(0,state.typing.target.length);drawGame()});
+function drawGame(){if(sel.game==='typing'){const {target,typed}=state.typing;noisyBG();ctx.textAlign='left';
+  ctx.fillStyle='#93a4c7';ctx.font='13px Inter,Arial';ctx.fillText('TYPE THE SENTENCE — canvas only (cannot copy)',20,28);
+  ctx.font='19px monospace';const wrap=(s,y)=>{ctx.fillStyle='#e8eefc';ctx.fillText(s.slice(0,52),20,y);if(s.length>52)ctx.fillText(s.slice(52,104),20,y+26)};
+  wrap(target,70);let done='';
+  for(let i=0;i<typed.length;i++)done+=typed[i]===target[i]?'✓':'✗';
+  ctx.fillStyle='#38bdf8';ctx.fillText(typed.slice(0,52),20,140);ctx.fillStyle='#facc15';ctx.fillText('acc: '+done.slice(0,52),20,168);
+  ctx.fillStyle='#93a4c7';ctx.font='13px Inter,Arial';ctx.fillText(`score ${state.score} • ${state.left}s left • events ${state.events.length}`,20,280)}
+ else{const m=state.math;noisyBG();ctx.textAlign='center';ctx.fillStyle='#93a4c7';ctx.font='13px Inter,Arial';
+  ctx.fillText('SOLVE — 6s per question — canvas prompt',cv.width/2,30);
+  ctx.fillStyle='#fff';ctx.font='bold 46px Inter,Arial';ctx.fillText(m.q,cv.width/2,140);
+  ctx.fillStyle='#facc15';ctx.font='15px Inter,Arial';ctx.fillText(`⏱ ${m.ql}s  •  correct ${m.correct}/${m.answered}  •  score ${state.score}`,cv.width/2,200);
+  ctx.fillStyle='#93a4c7';ctx.font='13px Inter,Arial';ctx.fillText('Tap an answer below — every click is timestamped + isTrusted-checked',cv.width/2,260)}}
+function nextMath(timeout){const m=state.math;if(timeout&&m.q)m.answered++;
+ const a=2+Math.floor(Math.random()*18),b=2+Math.floor(Math.random()*18),op=['+','−','×'][Math.floor(Math.random()*3)];
+ let ans=a+b;if(op==='−')ans=a-b;if(op==='×'){ans=(a%9)*(b%9)}
+ m.q=`${op==='×'?(a%9)+' × '+(b%9):a+' '+op+' '+b} = ?`;m.a=ans;m.ql=6;
+ const set=new Set([ans]);while(set.size<4)set.add(ans+Math.floor(Math.random()*11)-5);
+ m.opts=[...set].sort(()=>Math.random()-0.5);
+ const box=$('mathOpts');box.innerHTML='';m.opts.forEach(o=>{const btn=document.createElement('button');btn.textContent=o;
+  btn.onclick=e=>{if(e.isTrusted===false)return dq('Synthetic click (isTrusted=false)');
+   if(state.phase!=='running')return;pushEvent({k:'math',pick:o,ok:o===m.a,q:m.q});m.answered++;if(o===m.a)m.correct++;nextMath();drawGame()};box.appendChild(btn)});
+ drawGame()}
 
-    nextBtn.addEventListener("click", () => {
-      currentQuestion++;
-      if (currentQuestion < quizData.length) {
-        loadQuestion();
-      } else {
-        showFinal();
-      }
-    });
+/* ---- Finish: server-validated payout ---- */
+function endMatch(dqd,why){if(state.phase!=='running'&&!dqd){}
+ clearInterval(state.timerId);clearInterval(state.ghostTimer);state.phase='idle';$('btnJoin').disabled=false;$('matchTimer').textContent='';
+ const finalScore=dqd?0:mockServerScore();
+ const me=user?user.name:'guest';
+ if(!dqd&&finalScore>0){const comp=finalScore+(1-Math.min(1,(Date.now()-state.t0)/(matchSeconds()*1000)))/1000;
+  lb.push({name:me+(state.fee?' (€'+state.fee+')':''),score:finalScore,comp});lb=lb.slice(-40);
+  const p=prizeCalc();const sorted=lb.slice().sort((a,b)=>b.score-a.score);const rank=sorted.findIndex(e=>e.name.startsWith(me));
+  let win=0;if(ROOMS[sel.room].n===2){if(rank===0)win=p.dist}else{if(rank===0)win=p.rows[0].amt;else if(rank===1)win=p.rows[1].amt;else if(rank===2)win=p.rows[2].amt}
+  if(win>0){wallets.cash+=win;addLedger('prize','cash',win,`Rank #${rank+1} • score ${finalScore} • ${ROOMS[sel.room].label} €${sel.fee} (${why})`)}
+  else addLedger('played','deposit',0,`Rank #${rank+1} • score ${finalScore} • no prize (${why})`);
+  drawCenter([why.toUpperCase(),`Final score ${finalScore} (server-validated)`],win>0?`You won ${eur(win)} → Withdrawable Cash`:'No prize this run — ghosts beat you. Try again!')}
+ else drawCenter(['MATCH '+(dqd?'DISQUALIFIED':'OVER')],why,'Entry forfeited on DQ');
+ save();renderAll();$('ghostMsg').textContent='';state.fee=0}
 
-    function showFinal() {
-      questionEl.textContent = "Quiz finished!";
-      optionsEl.innerHTML = "";
-      resultEl.textContent = "Your final score is " + score + ".";
-      nextBtn.classList.add("hidden");
-      qnumEl.textContent = quizData.length;
-      timerEl.textContent = 0;
-    }
+/* ============ Anti-cheat listeners ============ */
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&state.phase==='running')dq('Tab hidden / switched (visibilitychange)')});
+window.addEventListener('blur',()=>{if(state.phase==='running'&&document.hasFocus()===false)dq('Window blur / second monitor (onblur)')});
+setInterval(()=>{if(state.phase==='running'&&!document.hasFocus())dq('Focus lost (hasFocus poll)')},4000);
+(function botCheck(){let flag='clean';try{if(navigator.webdriver)flag='webdriver=true';
+ const g=document.createElement('canvas').getContext('webgl');const ext=g&&g.getExtension('WEBGL_debug_renderer_info');
+ if(ext){const r=g.getParameter(ext.UNMASKED_RENDERER_WEBGL)+'';if(/swiftshader|llvmpipe|software/i.test(r))flag='software-GL (likely bot/CI): '+r.slice(0,60)}}
+ catch(e){} $('botFlag').textContent='device: '+flag;if(/webdriver/i.test(flag)&&state.phase==='running')dq('Headless bot detected (webdriver)');})();
+document.addEventListener('click',e=>{if(state.phase==='running'&&e.isTrusted===false)dq('Synthetic click injected')},true);
 
-    loadQuestion();
-  </script>
+/* ============ Init ============ */
+renderAll();drawIdle();
+
+</script>
 </body>
 </html>

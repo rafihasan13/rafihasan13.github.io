@@ -1,332 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QuizMint</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { background: #0f172a; color: #fff; line-height: 1.5; }
-    .container { width: 92%; max-width: 900px; margin: auto; }
-    header { padding: 22px 0; text-align: center; }
-    header h1 { font-size: 2rem; color: #38bdf8; }
-    header p { color: #cbd5e1; margin-top: 8px; }
-    .hero {
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      padding: 24px;
-      border-radius: 18px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>hi — Movie & Series Streaming</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        pitch: '#000000',
+        darkgrey: '#1a1a1a',
+        brand: '#e50914',
+      }
     }
-    .hero h2 { font-size: 1.4rem; margin-bottom: 10px; }
-    .hero p { color: #cbd5e1; margin-bottom: 14px; }
-    .btn {
-      display: inline-block;
-      background: #38bdf8;
-      color: #00111a;
-      padding: 12px 18px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-    }
-    .section-title { margin: 24px 0 14px; font-size: 1.25rem; color: #f8fafc; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 14px;
-    }
-    .card {
-      background: #1e293b;
-      padding: 18px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.2);
-    }
-    .card h3 { margin-bottom: 8px; color: #7dd3fc; }
-    .card p { color: #cbd5e1; font-size: 0.95rem; }
-    .rooms {
-      display: grid;
-      gap: 12px;
-      margin-top: 12px;
-    }
-    .room {
-      background: #1e293b;
-      padding: 16px;
-      border-radius: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .room strong { color: #f8fafc; }
-    .room span { color: #94a3b8; font-size: 0.92rem; display: block; }
-    .quiz-box {
-      background: #111827;
-      margin-top: 28px;
-      padding: 20px;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    }
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-    .top-bar div {
-      background: #1e293b;
-      padding: 10px 14px;
-      border-radius: 12px;
-      color: #cbd5e1;
-    }
-    #question {
-      font-size: 1.2rem;
-      margin-bottom: 16px;
-    }
-    .options {
-      display: grid;
-      gap: 12px;
-    }
-    .option-btn {
-      background: #1e293b;
-      color: white;
-      border: 2px solid transparent;
-      padding: 14px;
-      border-radius: 12px;
-      text-align: left;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .option-btn:hover { border-color: #38bdf8; }
-    .result {
-      margin-top: 18px;
-      font-weight: bold;
-      color: #facc15;
-    }
-    .hidden { display: none; }
-    footer {
-      margin: 32px 0 24px;
-      text-align: center;
-      color: #94a3b8;
-      font-size: 0.92rem;
-    }
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.7rem; }
-      .hero h2 { font-size: 1.2rem; }
-      #question { font-size: 1.05rem; }
-    }
-  </style>
+  }
+}
+</script>
+<style>
+  * { -webkit-tap-highlight-color: transparent; }
+  body { background:#000000; color:#ffffff; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Hind Siliguri", Arial, sans-serif; }
+  ::-webkit-scrollbar { width:8px; height:8px; }
+  ::-webkit-scrollbar-track { background:#000; }
+  ::-webkit-scrollbar-thumb { background:#2a2a2a; border-radius:99px; }
+  ::-webkit-scrollbar-thumb:hover { background:#e50914; }
+  .line-clamp-1 { display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+  .card-poster img { transition: transform .45s ease; }
+  .card-poster:hover img { transform: scale(1.07); }
+  #videoModal { transition: opacity .2s ease; }
+  .fade-in { animation: fadeIn .25s ease both; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(10px);} to { opacity:1; transform:none; } }
+</style>
 </head>
-<body>
-  <div class="container">
-    <header>
-      <h1>QuizMint</h1>
-      <p>Play smart. Learn fast. Rise on the leaderboard.</p>
-    </header>
+<body class="bg-pitch text-white min-h-screen pb-36">
 
-    <section class="hero">
-      <h2>Daily Free Quiz + Practice Rooms</h2>
-      <p>
-        QuizMint is an English-only quiz platform with category-based challenges,
-        fast-answer scoring, and 30-second questions.
-      </p>
-      <a href="#quiz" class="btn">Start First Quiz</a>
-    </section>
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-black/95 backdrop-blur border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-3 sm:px-5 py-3 flex items-center justify-between gap-3">
+    <!-- Logo: modern icon with 'hi' -->
+    <a href="#" id="logoBtn" class="flex items-center gap-2 shrink-0 select-none">
+      <span class="w-10 h-10 rounded-2xl flex items-center justify-center font-black text-xl tracking-tighter text-white shadow-lg shadow-red-900/40" style="background: linear-gradient(135deg,#e50914 0%,#7f0a0f 60%,#ff2e38 130%);">hi</span>
+      <span class="hidden sm:flex flex-col leading-none">
+        <span class="font-extrabold text-lg tracking-tight">hi<span class="text-brand">Stream</span></span>
+        <span class="text-[11px] text-gray-400 tracking-widest uppercase">Movies • Series</span>
+      </span>
+    </a>
+    <!-- Search -->
+    <div class="relative flex-1 max-w-md ml-auto">
+      <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M21 21l-4.3-4.3"/></svg>
+      </span>
+      <input id="searchInput" type="text" placeholder="search here..." autocomplete="off"
+        class="w-full bg-darkgrey text-white placeholder-gray-400 text-sm rounded-full pl-10 pr-4 py-2.5 outline-none border border-white/10 focus:border-brand focus:ring-2 focus:ring-brand/30 transition" />
+    </div>
+  </div>
+</header>
 
-    <h2 class="section-title">Categories</h2>
-    <section class="grid">
-      <div class="card">
-        <h3>Mathematics</h3>
-        <p>Percentages, ratios, algebra, and logic-based questions.</p>
-      </div>
-      <div class="card">
-        <h3>History</h3>
-        <p>World history, civilizations, events, and famous leaders.</p>
-      </div>
-      <div class="card">
-        <h3>Music</h3>
-        <p>Basic music knowledge, rhythm, notes, and instruments.</p>
-      </div>
-      <div class="card">
-        <h3>Mixed Quiz</h3>
-        <p>A mix of general knowledge, logic, and fun challenge questions.</p>
-      </div>
-    </section>
-
-    <h2 class="section-title">Quiz Rooms</h2>
-    <section class="rooms">
-      <div class="room">
-        <div>
-          <strong>Daily Free Quiz</strong>
-          <span>12 questions • 50 seats • Top 5 winners</span>
-        </div>
-        <button class="btn" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Play</button>
-      </div>
-
-      <div class="room">
-        <div>
-          <strong>Starter Room</strong>
-          <span>$1 entry • 10 questions • 4 easy + 6 hard</span>
-        </div>
-        <button class="btn">Preview</button>
-      </div>
-
-      <div class="room">
-        <div>
-          <strong>Standard Room</strong>
-          <span>$2 entry • 10 questions • Speed bonus enabled</span>
-        </div>
-        <button class="btn">Preview</button>
-      </div>
-    </section>
-
-    <section class="quiz-box" id="quiz">
-      <h2 class="section-title" style="margin-top:0;">First Playable Quiz</h2>
-
-      <div class="top-bar">
-        <div>Question: <span id="qnum">1</span>/3</div>
-        <div>Time: <span id="timer">30</span>s</div>
-        <div>Score: <span id="score">0</span></div>
-      </div>
-
-      <div id="question">Loading question...</div>
-      <div class="options" id="options"></div>
-      <div class="result" id="result"></div>
-      <button class="btn hidden" id="nextBtn">Next Question</button>
-    </section>
-
-    <footer>
-      QuizMint demo is live on GitHub Pages. More rooms, login, and leaderboard can be added next.
-    </footer>
+<!-- MAIN -->
+<main class="max-w-7xl mx-auto px-3 sm:px-5 pt-5">
+  <div class="flex items-end justify-between gap-3 mb-4">
+    <div>
+      <h1 id="sectionTitle" class="text-lg sm:text-2xl font-extrabold tracking-tight">All Shows</h1>
+      <p id="resultCount" class="text-xs sm:text-sm text-gray-400 mt-0.5">12 titles</p>
+    </div>
+    <span class="hidden sm:inline-flex text-[11px] px-2.5 py-1 rounded-full bg-darkgrey border border-white/10 text-gray-300">HD • 4K • Dolby</span>
   </div>
 
-  <script>
-    const quizData = [
-      {
-        question: "What is 25% of 200?",
-        options: ["40", "50", "25", "75"],
-        answer: "50"
-      },
-      {
-        question: "Which civilization built the pyramids of Giza?",
-        options: ["Romans", "Greeks", "Egyptians", "Persians"],
-        answer: "Egyptians"
-      },
-      {
-        question: "How many lines are there in a musical staff?",
-        options: ["4", "5", "6", "7"],
-        answer: "5"
-      }
-    ];
+  <!-- Movie Grid: 3 cols mobile, 6 cols desktop -->
+  <div id="movieGrid" class="grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4"></div>
 
-    let currentQuestion = 0;
-    let score = 0;
-    let timer = 30;
-    let interval;
-    let answered = false;
+  <!-- Empty state -->
+  <div id="emptyState" class="hidden text-center py-20">
+    <div class="text-5xl mb-3">🍿</div>
+    <p class="font-bold">No results found</p>
+    <p class="text-sm text-gray-400 mt-1">Try another title or category</p>
+  </div>
+</main>
 
-    const questionEl = document.getElementById("question");
-    const optionsEl = document.getElementById("options");
-    const resultEl = document.getElementById("result");
-    const nextBtn = document.getElementById("nextBtn");
-    const timerEl = document.getElementById("timer");
-    const scoreEl = document.getElementById("score");
-    const qnumEl = document.getElementById("qnum");
+<!-- FLOATING CATEGORY FILTER -->
+<div class="fixed bottom-[84px] left-1/2 -translate-x-1/2 z-40">
+  <div class="flex items-center gap-1 bg-darkgrey/95 backdrop-blur border border-white/10 rounded-full p-1.5 shadow-2xl shadow-black">
+    <button data-cat="hollywood" class="catBtn whitespace-nowrap px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold text-gray-200 hover:text-white transition">🎬 Hollywood</button>
+    <button data-cat="all" class="catBtn whitespace-nowrap px-5 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-bold bg-white text-black transition">All</button>
+    <button data-cat="bollywood" class="catBtn whitespace-nowrap px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold text-gray-200 hover:text-white transition">🎪 Bollywood</button>
+  </div>
+</div>
 
-    function loadQuestion() {
-      clearInterval(interval);
-      timer = 30;
-      answered = false;
-      timerEl.textContent = timer;
-      resultEl.textContent = "";
-      nextBtn.classList.add("hidden");
+<!-- SCROLL TO TOP -->
+<button id="scrollTopBtn" aria-label="Scroll to top"
+  class="fixed bottom-[150px] right-4 z-40 w-11 h-11 rounded-full bg-brand hover:bg-red-600 text-white items-center justify-center shadow-xl shadow-red-900/40 transition hidden sm:hidden flex">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+</button>
 
-      const q = quizData[currentQuestion];
-      qnumEl.textContent = currentQuestion + 1;
-      questionEl.textContent = q.question;
-      optionsEl.innerHTML = "";
+<!-- BOTTOM STICKY NAV -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-darkgrey border-t border-white/10">
+  <div class="max-w-3xl mx-auto grid grid-cols-4">
+    <button data-tab="home" class="tabBtn flex flex-col items-center gap-0.5 py-2.5 text-brand">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10"/></svg>
+      <span class="text-[11px] font-semibold">Home</span>
+    </button>
+    <button data-tab="trending" class="tabBtn flex flex-col items-center gap-0.5 py-2.5 text-gray-400 hover:text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+      <span class="text-[11px] font-semibold">Trending</span>
+    </button>
+    <button data-tab="movies" class="tabBtn flex flex-col items-center gap-0.5 py-2.5 text-gray-400 hover:text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path stroke-linecap="round" d="M7 4v16M17 4v16M2 9h5M2 15h5M17 9h5M17 15h5"/></svg>
+      <span class="text-[11px] font-semibold">Movies</span>
+    </button>
+    <button data-tab="series" class="tabBtn flex flex-col items-center gap-0.5 py-2.5 text-gray-400 hover:text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="13" rx="2"/><path stroke-linecap="round" d="M17 7V5a2 2 0 00-2-2H5a2 2 0 00-2 2v2M8 11h8"/></svg>
+      <span class="text-[11px] font-semibold">Series</span>
+    </button>
+  </div>
+</nav>
 
-      q.options.forEach(option => {
-        const btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.textContent = option;
-        btn.onclick = () => selectAnswer(option, btn);
-        optionsEl.appendChild(btn);
-      });
+<!-- VIDEO PLAYER MODAL -->
+<div id="videoModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/85 backdrop-blur-sm p-3">
+  <div class="w-full max-w-3xl bg-darkgrey rounded-2xl overflow-hidden border border-white/10 fade-in">
+    <div class="flex items-center justify-between px-4 py-3 border-b border-white/10">
+      <div class="min-w-0">
+        <h3 id="modalTitle" class="font-bold text-sm sm:text-base truncate">Title</h3>
+        <p id="modalMeta" class="text-[11px] sm:text-xs text-gray-400 truncate">Meta</p>
+      </div>
+      <button id="modalClose" class="ml-3 w-9 h-9 shrink-0 rounded-full bg-brand hover:bg-red-600 flex items-center justify-center font-bold">✕</button>
+    </div>
+    <div class="aspect-video bg-black">
+      <iframe id="modalPlayer" class="w-full h-full" src="" title="Video player" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+    <div class="flex items-center justify-between px-4 py-3">
+      <span class="inline-flex items-center gap-1.5 text-[11px] text-gray-300"><span class="w-2 h-2 rounded-full bg-brand inline-block animate-pulse"></span> Now Playing • HD</span>
+      <a id="modalWatchBtn" href="#" target="_blank" class="text-[12px] font-bold bg-white text-black px-4 py-1.5 rounded-full hover:bg-gray-200">Watch on YouTube ↗</a>
+    </div>
+  </div>
+</div>
 
-      interval = setInterval(() => {
-        timer--;
-        timerEl.textContent = timer;
-        if (timer <= 0) {
-          clearInterval(interval);
-          if (!answered) {
-            answered = true;
-            resultEl.textContent = "Time is up!";
-            nextBtn.classList.remove("hidden");
-            disableOptions();
-          }
-        }
-      }, 1000);
-    }
+<script>
+// ---------- Demo data: 12 popular movies & series ----------
+const movies = [
+  { id:1, title:"Avengers: Endgame", category:"hollywood", type:"movie", trending:true, date:"Apr 26, 2019", poster:"https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg", yt:"TcMBFSGVi1c" },
+  { id:2, title:"Money Heist", category:"hollywood", type:"series", trending:true, date:"Oct 10, 2026", episode:"S1 Episode 10", poster:"https://image.tmdb.org/t/p/w500/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg", yt:"_InqQJRqGWs" },
+  { id:3, title:"Jawan", category:"bollywood", type:"movie", trending:true, date:"Sep 07, 2023", poster:"https://image.tmdb.org/t/p/w500/jFkOnY9JHoY9KmTKIx1l2M9yGJAl.jpg", yt:"MWOo6_cyzhs" },
+  { id:4, title:"Stranger Things", category:"hollywood", type:"series", trending:true, date:"May 27, 2022", episode:"S4 Episode 9", poster:"https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn8AIqMGskD.jpg", yt:"yQEondeGvKo" },
+  { id:5, title:"Pathaan", category:"bollywood", type:"movie", trending:false, date:"Jan 25, 2023", poster:"https://image.tmdb.org/t/p/w500/gPbM0MK8CP8A174rmUwGsADNYKD.jpg", yt:"vqu4z78cL9U" },
+  { id:6, title:"Loki", category:"hollywood", type:"series", trending:false, date:"Oct 06, 2023", episode:"S2 Episode 6", poster:"https://image.tmdb.org/t/p/w500/voHUmluYmKyleFkTu3lOXQG702u.jpg", yt:"dIx89Qevx0Q" },
+  { id:7, title:"Animal", category:"bollywood", type:"movie", trending:true, date:"Dec 01, 2023", poster:"https://image.tmdb.org/t/p/w500/hr9rjR3J0xBBqN9x8X76Bs4SZEh.jpg", yt:"75WT-Fh95Cc" },
+  { id:8, title:"Spider-Man: No Way Home", category:"hollywood", type:"movie", trending:false, date:"Dec 17, 2021", poster:"https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg", yt:"JfVOs4VSpmA" },
+  { id:9, title:"Mirzapur", category:"bollywood", type:"series", trending:true, date:"Jul 05, 2024", episode:"S3 Episode 10", poster:"https://image.tmdb.org/t/p/w500/2Abgd5BYM9puXT16uSlwitjFPSM.jpg", yt:"ZNeGF-PvRHY" },
+  { id:10, title:"Avatar: The Way of Water", category:"hollywood", type:"movie", trending:false, date:"Dec 16, 2022", poster:"https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg", yt:"d9MyW72ELq0" },
+  { id:11, title:"Sacred Games", category:"bollywood", type:"series", trending:false, date:"Aug 15, 2019", episode:"S2 Episode 8", poster:"https://image.tmdb.org/t/p/w500/mU3wk97V5DhqT4Uc9jojevSsl3K.jpg", yt:"AKWk6vIWMZQ" },
+  { id:12, title:"Scam 1992: Harshad Mehta Story", category:"bollywood", type:"series", trending:true, date:"Oct 09, 2020", episode:"S1 Episode 10", poster:"https://image.tmdb.org/t/p/w500/sd6R8W2wLlSZUyTAo8cM5KYJMaN.jpg", yt:"ISi6c8yLs6w" },
+];
 
-    function selectAnswer(selected, btn) {
-      if (answered) return;
-      answered = true;
-      clearInterval(interval);
+const state = { search:"", category:"all", tab:"home" };
+const grid = document.getElementById("movieGrid");
+const emptyState = document.getElementById("emptyState");
+const sectionTitle = document.getElementById("sectionTitle");
+const resultCount = document.getElementById("resultCount");
+const searchInput = document.getElementById("searchInput");
 
-      const correct = quizData[currentQuestion].answer;
-      const buttons = document.querySelectorAll(".option-btn");
+const tabNames = { home:"All Shows", trending:"Trending Now", movies:"Movies", series:"Series" };
 
-      buttons.forEach(b => {
-        b.disabled = true;
-        if (b.textContent === correct) {
-          b.style.borderColor = "#22c55e";
-          b.style.background = "#14532d";
-        }
-      });
+function filtered() {
+  const q = state.search.trim().toLowerCase();
+  return movies.filter(m => {
+    if (state.category !== "all" && m.category !== state.category) return false;
+    if (state.tab === "trending" && !m.trending) return false;
+    if (state.tab === "movies" && m.type !== "movie") return false;
+    if (state.tab === "series" && m.type !== "series") return false;
+    if (q && !m.title.toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
 
-      if (selected === correct) {
-        const gained = 10 + timer;
-        score += gained;
-        scoreEl.textContent = score;
-        btn.style.borderColor = "#22c55e";
-        btn.style.background = "#14532d";
-        resultEl.textContent = "Correct! +" + gained + " points";
-      } else {
-        btn.style.borderColor = "#ef4444";
-        btn.style.background = "#7f1d1d";
-        resultEl.textContent = "Wrong answer!";
-      }
+function cardHTML(m) {
+  const isSeries = m.type === "series";
+  const badge = isSeries ? `
+    <div class="absolute bottom-2.5 left-0 right-0 flex flex-col items-center gap-1.5 px-2">
+      <span class="bg-brand text-white text-[10px] md:text-[11px] font-extrabold px-2.5 py-[3px] rounded-full shadow-lg whitespace-nowrap">${m.episode}</span>
+      <span class="bg-white text-black text-[10px] md:text-[11px] font-extrabold px-3.5 py-[3px] rounded-full shadow-lg">Watch Now</span>
+    </div>` : `
+    <div class="absolute inset-0 hidden group-hover:flex items-center justify-center bg-black/45">
+      <span class="w-11 h-11 rounded-full bg-white text-black flex items-center justify-center text-lg font-black">▶</span>
+    </div>`;
+  return `
+  <article data-id="${m.id}" class="movieCard cursor-pointer group fade-in">
+    <div class="card-poster relative rounded-lg overflow-hidden aspect-[2/3] bg-darkgrey border border-white/5">
+      <img src="${m.poster}" alt="${m.title}" loading="lazy" class="w-full h-full object-cover"
+        onerror="this.onerror=null;this.src='https://picsum.photos/seed/histream${m.id}/300/450';" />
+      ${badge}
+      ${m.trending ? `<span class="absolute top-1.5 left-1.5 bg-black/70 backdrop-blur text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/10">🔥 Trending</span>` : ``}
+    </div>
+    <p class="text-[10px] md:text-xs text-gray-400 mt-2">${m.date}</p>
+    <h3 class="text-xs md:text-sm text-white font-medium truncate" title="${m.title}">${m.title}</h3>
+  </article>`;
+}
 
-      nextBtn.classList.remove("hidden");
-    }
+function render() {
+  const list = filtered();
+  grid.innerHTML = list.map(cardHTML).join("");
+  emptyState.classList.toggle("hidden", list.length > 0);
+  const catLabel = state.category === "all" ? "" : state.category === "hollywood" ? " • Hollywood" : " • Bollywood";
+  sectionTitle.textContent = tabNames[state.tab] + catLabel;
+  resultCount.textContent = list.length + (list.length === 1 ? " title" : " titles");
+  document.querySelectorAll(".movieCard").forEach(c => {
+    c.addEventListener("click", () => openModal(Number(c.dataset.id)));
+  });
+}
 
-    function disableOptions() {
-      document.querySelectorAll(".option-btn").forEach(b => b.disabled = true);
-    }
+function setCat(cat) {
+  state.category = cat;
+  document.querySelectorAll(".catBtn").forEach(b => {
+    const active = b.dataset.cat === cat;
+    b.className = "catBtn whitespace-nowrap px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition " + (active ? "bg-white text-black px-5 sm:px-6" : "text-gray-200 hover:text-white");
+  });
+  render();
+}
 
-    nextBtn.addEventListener("click", () => {
-      currentQuestion++;
-      if (currentQuestion < quizData.length) {
-        loadQuestion();
-      } else {
-        showFinal();
-      }
-    });
+function setTab(tab) {
+  state.tab = tab;
+  document.querySelectorAll(".tabBtn").forEach(b => {
+    const active = b.dataset.tab === tab;
+    b.classList.toggle("text-brand", active);
+    b.classList.toggle("text-gray-400", !active);
+  });
+  render();
+}
 
-    function showFinal() {
-      questionEl.textContent = "Quiz finished!";
-      optionsEl.innerHTML = "";
-      resultEl.textContent = "Your final score is " + score + ".";
-      nextBtn.classList.add("hidden");
-      qnumEl.textContent = quizData.length;
-      timerEl.textContent = 0;
-    }
+document.querySelectorAll(".catBtn").forEach(b => b.addEventListener("click", () => setCat(b.dataset.cat)));
+document.querySelectorAll(".tabBtn").forEach(b => b.addEventListener("click", () => setTab(b.dataset.tab)));
+document.getElementById("logoBtn").addEventListener("click", e => { e.preventDefault(); searchInput.value=""; state.search=""; setCat("all"); setTab("home"); window.scrollTo({top:0,behavior:"smooth"}); });
+searchInput.addEventListener("input", e => { state.search = e.target.value; render(); });
 
-    loadQuestion();
-  </script>
+// ---------- Modal ----------
+const modal = document.getElementById("videoModal");
+const player = document.getElementById("modalPlayer");
+function openModal(id) {
+  const m = movies.find(x => x.id === id);
+  if (!m) return;
+  document.getElementById("modalTitle").textContent = m.title;
+  document.getElementById("modalMeta").textContent = `${m.date} • ${m.category} • ${m.type}${m.episode ? " • " + m.episode : ""}`;
+  player.src = `https://www.youtube.com/embed/${m.yt}?autoplay=1&rel=0`;
+  document.getElementById("modalWatchBtn").href = `https://www.youtube.com/watch?v=${m.yt}`;
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+  document.body.style.overflow = "hidden";
+}
+function closeModal() {
+  player.src = "";
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+  document.body.style.overflow = "";
+}
+document.getElementById("modalClose").addEventListener("click", closeModal);
+modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+// ---------- Scroll to top ----------
+const topBtn = document.getElementById("scrollTopBtn");
+window.addEventListener("scroll", () => {
+  const show = window.scrollY > 300;
+  topBtn.classList.toggle("hidden", !show);
+  topBtn.classList.toggle("flex", show);
+}, { passive:true });
+topBtn.addEventListener("click", () => window.scrollTo({ top:0, behavior:"smooth" }));
+
+render();
+</script>
 </body>
 </html>
